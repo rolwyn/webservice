@@ -1,5 +1,5 @@
-import supertest from 'supertest'
-import app from '../api/app.js'
+const supertest = require('supertest')
+const app = require('../api/app')
 
 const api = supertest(app)
 

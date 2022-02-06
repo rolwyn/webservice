@@ -1,8 +1,8 @@
-import express from 'express';
-import cookieParser from 'cookie-parser';
-import bodyParser from 'body-parser';
-import routes from './routes/index.js';
-import cors from 'cors';
+const express = require('express')
+const cookieParser = require('cookie-parser')
+const bodyParser = require('body-parser')
+const routes = require('./routes/index')
+const cors = require('cors')
 
 // creates an express server
 const app = express();
@@ -14,6 +14,6 @@ app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 
 // set routes
-routes(app)
+routes(app);
 
-export default app;
+module.exports = app;

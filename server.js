@@ -1,4 +1,4 @@
-import app from './api/app.js'
+const app = require('./api/app')
 
 const port = process.env.PORT || 4300
 
