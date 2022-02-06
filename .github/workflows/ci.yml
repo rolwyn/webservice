@@ -1,9 +1,5 @@
 name: Test APIs
-on:
-  push:
-    branches: 
-      - assignment1
-      - main
+on: [push]
 jobs:
   check-api:
     name: Check all apis
