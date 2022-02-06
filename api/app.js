@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 import routes from './routes/index.js';
 import cors from 'cors';
 
-// create an express server
+// creates an express server
 const app = express();
 
 app.use(cors());
