@@ -1,0 +1,15 @@
+name: Test APIs
+on: [push]
+jobs:
+  check-api:
+    name: Check All APIs
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+      - uses: npm ci
+      - name: Run Api Tests
+      - run:  npm run test
