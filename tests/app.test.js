@@ -6,5 +6,5 @@ const api = supertest(app)
 test('HTTP Status code is 200, OK', async () => {
     await api
         .get('/healthz')
-        .expect(300)
+        .expect(200)
 })
