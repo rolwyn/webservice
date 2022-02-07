@@ -1,5 +1,5 @@
 name: Test APIs
-on: [pull_request]
+on: [push]
 jobs:
   check-api:
     name: Check all apis
