@@ -1,8 +1,5 @@
 name: Test APIs
-on: 
-  pull_request:
-    branches:
-      - main
+on: [pull_request]
 jobs:
   check-api:
     name: Check all apis
