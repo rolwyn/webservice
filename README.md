@@ -4,6 +4,6 @@
 
 Steps for running the code to run
 
-runnig a test
+runnig a test for workflow
 
 # webservice
