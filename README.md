@@ -2,6 +2,6 @@
 
 ```Name: Rolwyn Quadras, NUID - 001554737, Email - quadras.r@northeastern.edu```
 
-Steps for running the code to run
+Steps for running the code to run on github
 
 # webservice
