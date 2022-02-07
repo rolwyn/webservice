@@ -1,0 +1,1 @@
+GET http://localhost:4300/healthz HTTP/1.1
