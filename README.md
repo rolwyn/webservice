@@ -2,7 +2,7 @@
 
 ```Name: Rolwyn Quadras, NUID - 001554737, Email - quadras.r@northeastern.edu```
 
-# Steps for running application locally
+# Steps for running application locally.
 
 1. Clone the Organization Repo using ```git clone``` command followed by the SSH link
    using the terminal
