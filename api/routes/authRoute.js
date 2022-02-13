@@ -7,6 +7,8 @@ const express = require('express')
 const { signup } = require('../controllers/authController.js')
 const User = require('../models/User')
 
+const { body } = require('express-validator');
+
 const router = express.Router();
 /**
  * all auth urls will here here
@@ -37,7 +39,10 @@ router.route('/')
 
 
 router.route('/user')
-   .post(signup)
+   .post(
+      body('emailid').isEmail(),
+      signup
+   )
 
 // export default router
 module.exports = router

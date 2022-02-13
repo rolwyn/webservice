@@ -12,4 +12,8 @@ const signupuser = (user) => {
     return User.create(user)
 }
 
-module.exports = {signupuser}
+const checkExistingUser = (emailid) => {
+    return User.findOne({ where: { emailid: emailid } })
+}
+
+module.exports = {signupuser, checkExistingUser}
