@@ -1,8 +1,10 @@
-import { response } from 'express'
-import * as authService from '../services/authService.js'
-import User from '../models/User.js'
+// import { response } from 'express'
+// import * as authService from '../services/authService.js'
+// import User from '../models/User.js'
 
 const { response } = require('express')
+const { signupuser } = require('../services/authService')
+const User = require('../models/User')
 
 /**
  * Set a success response
@@ -26,10 +28,10 @@ const setErrorResponse = (message, res) => {
     res.json({ error: message });
 }
 
-export const signup = async (req, res) => {
+const signup = async (req, res) => {
     try {
         const user = {...req.body}
-        const newUser = await authService.signup(user)
+        const newUser = await signupuser(user)
         // const userData = newUser.toJSON()
         // delete userData['password']
         setSuccessResponse(newUser, res)
@@ -37,3 +39,7 @@ export const signup = async (req, res) => {
         setErrorResponse(e.message, res)
     }
 };
+
+module.exports = {
+    signup
+}
