@@ -1,1 +1,11 @@
-GET http://localhost:4300/healthz HTTP/1.1
+# GET http://localhost:4300/healthz HTTP/1.1
+
+POST http://localhost:4300/v1/user/ HTTP/1.1
+content-type: application/json 
+
+{   
+    "firstname": "sr2",
+    "lastname": "2w2",
+    "emailid" : "w22",
+    "password": "abcds@12234"
+}

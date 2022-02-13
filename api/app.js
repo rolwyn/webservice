@@ -8,6 +8,10 @@ const db = require('../config/database')
 // creates an express server
 const app = express();
 
+db.sync({ force: false }).then(() => {
+    console.log("Drop and re-sync db.");
+});
+
 // Test db
 db.authenticate()
     .then(() => console.log('Database Connected...'))

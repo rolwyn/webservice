@@ -32,9 +32,9 @@ const signup = async (req, res) => {
     try {
         const user = {...req.body}
         const newUser = await signupuser(user)
-        // const userData = newUser.toJSON()
-        // delete userData['password']
-        setSuccessResponse(newUser, res)
+        const userData = newUser.toJSON()
+        delete userData['password']
+        setSuccessResponse(userData, res)
     } catch (e) {
         setErrorResponse(e.message, res)
     }
