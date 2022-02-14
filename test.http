@@ -6,12 +6,22 @@
 # {   
 #     "firstname": "sr2",
 #     "lastname": "2w2",
-#     "emailid" : "rol@gmail.com",
+#     "emailid" : "golsssss@gmail.com",
 #     "password": "abcd"
 # }
 
 # curl -X GET http://localhost:4300/v1/user/self -H "Content-Type: application/json" --user "login:password"
 
-GET http://localhost:4300/v1/user/self HTTP/1.1
-Authorization: Basic rol@gmail.com:abcd
+# GET http://localhost:4300/v1/user/self HTTP/1.1
+# Authorization: Basic golu@gmail.com:abcd
+# content-type: application/json
+
+PUT http://localhost:4300/v1/user/self HTTP/1.1
+Authorization: Basic rolu@gmail.com:abcd
 content-type: application/json
+
+{   
+    "firstname": "abcde",
+    "lastname": "abc",
+    "password": "haha"
+}

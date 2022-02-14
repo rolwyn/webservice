@@ -52,6 +52,10 @@ router.route('/self')
       basicAuth,
       controller.authenticate
    )
+   .put(
+      basicAuth,
+      controller.updateUser
+   )
 
 // export default router
 module.exports = router
