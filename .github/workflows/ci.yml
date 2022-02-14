@@ -3,7 +3,7 @@ on:
   pull_request:
     branches: [main]
   push:
-    branches: [assignment1]
+    branches: [assignment1, assignment2]
 jobs:
   check-api:
     name: Check all apis
