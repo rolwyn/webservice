@@ -4,10 +4,12 @@
 // import User from '../../models/User.js'
 
 const express = require('express')
-const { signup } = require('../controllers/authController.js')
+const controller = require('../controllers/authController.js')
 const User = require('../models/User')
+const basicAuth = require('../middleware/basicAuth')
 
 const { body } = require('express-validator');
+const app = require('../app');
 
 const router = express.Router();
 /**
@@ -28,20 +30,27 @@ const router = express.Router();
 //       verifySignUpDetails.checkExistingUser,
 //       authController.login)
 
+// router.route('/')
+//    .get((req, res) => 
+//    User.findAll()
+//       .then(users => {
+//          console.log(users);
+//          res.sendStatus(200);
+//       })
+//    .catch(err => console.log(err)))
+
+
 router.route('/')
-   .get((req, res) => 
-   User.findAll()
-      .then(users => {
-         console.log(users);
-         res.sendStatus(200);
-      })
-   .catch(err => console.log(err)))
-
-
-router.route('/user')
    .post(
       body('emailid').isEmail(),
-      signup
+      controller.signup
+   )
+
+
+router.route('/self')
+   .get(
+      basicAuth,
+      controller.authenticate
    )
 
 // export default router

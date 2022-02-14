@@ -34,7 +34,7 @@ const signup = async (req, res) => {
             return setErrorResponse(validationErrors.array(), res, 400)
         }
         // give bad request if the following fields are found
-        if (req.body.createdAt || req.body.updatedAt) return setErrorResponse(`Fields updatedAt and createdAt are not accepted`, res, 400)
+        if (req.body.createdAt || req.body.updatedAt || req.body.id) return setErrorResponse(`Fields id, updatedAt and createdAt are not accepted`, res, 400)
 
         // if (req.body.createdAt) delete req.body['createdAt']
         // if (req.body.updatedAt) delete req.body['updatedAt']
@@ -58,6 +58,39 @@ const signup = async (req, res) => {
     }
 };
 
+const authenticate = async (req, res) => {
+    try {
+        console.log('///////////')
+        console.log(req.credentials.pass)
+
+        const requsername = req.credentials.name
+        const reqpassword = req.credentials.pass
+
+        // pass header username(email) to check if user exists
+        const existingUser = await checkExistingUser(requsername.toLowerCase())
+        if (existingUser == null) return setErrorResponse(`User not found`, res, 400)
+
+        let isPasswordMatch = bcrypt.compareSync(
+            reqpassword,
+            existingUser.password
+        );
+
+        console.log("--------------")
+        console.log(isPasswordMatch)
+ 
+        if (!isPasswordMatch) return setErrorResponse(`Credentials do not match`, res, 401)
+
+        const userData = existingUser.toJSON()
+        userData.account_created = userData.createdAt;
+        userData.account_updated = userData.updatedAt;
+        let {createdAt, updatedAt, password, ...newUserData} = {...userData}
+
+        setSuccessResponse(newUserData, res)
+    } catch (e) {
+        setErrorResponse(e.message, res)
+    }
+}
+
 module.exports = {
-    signup
+    signup, authenticate
 }

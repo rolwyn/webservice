@@ -1,11 +1,17 @@
 # GET http://localhost:4300/healthz HTTP/1.1
 
-POST http://localhost:4300/v1/user/ HTTP/1.1
-content-type: application/json 
+# POST http://localhost:4300/v1/user/ HTTP/1.1
+# content-type: application/json 
 
-{   
-    "firstname": "sr2",
-    "lastname": "2w2",
-    "emailid" : "hahaa@gmail.com",
-    "password": "abcdss@12234"
-}
+# {   
+#     "firstname": "sr2",
+#     "lastname": "2w2",
+#     "emailid" : "rol@gmail.com",
+#     "password": "abcd"
+# }
+
+# curl -X GET http://localhost:4300/v1/user/self -H "Content-Type: application/json" --user "login:password"
+
+GET http://localhost:4300/v1/user/self HTTP/1.1
+Authorization: Basic rol@gmail.com:abcd
+content-type: application/json

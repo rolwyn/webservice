@@ -8,5 +8,5 @@ module.exports = function(app) {
     app.get('/healthz', (req, res) => {
         res.send('Health endpoint');
     });
-    app.use('/v1', authRouter);
+    app.use('/v1/user', authRouter);
 }
