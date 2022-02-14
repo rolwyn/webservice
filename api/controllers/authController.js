@@ -45,8 +45,14 @@ const signup = async (req, res) => {
         const user = {...req.body, password: bcrypt.hashSync(req.body.password, 8)}
         const newUser = await signupuser(user)
         const userData = newUser.toJSON()
-        delete userData['password']
-        setSuccessResponse(userData, res)
+        userData.account_created = userData.createdAt;
+        userData.account_updated = userData.updatedAt;
+        // delete userData['createdAt']
+        // delete userData['updatedAt']
+        // delete userData['password']
+
+        let {createdAt, updatedAt,  password, ...newUserData} = {...userData}
+        setSuccessResponse(newUserData, res)
     } catch (e) {
         setErrorResponse(e.message, res)
     }

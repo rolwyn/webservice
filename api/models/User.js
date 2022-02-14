@@ -13,16 +13,6 @@ const User = db.define('users', {
     },
     lastname: {
         type: Sequelize.STRING
-    },
-    account_created: {
-        allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW
-    },
-    account_updated: {
-        allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW
     }
 })
 
