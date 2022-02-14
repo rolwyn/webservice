@@ -4,24 +4,26 @@
 # content-type: application/json 
 
 # {   
-#     "firstname": "sr2",
+#     "firstname": "rr",
 #     "lastname": "2w2",
-#     "emailid" : "golsssss@gmail.com",
-#     "password": "abcd"
+#     "emailid" : "abcde@gmail.com",
+#     "password": "Rolwyn@12345"
 # }
 
 # curl -X GET http://localhost:4300/v1/user/self -H "Content-Type: application/json" --user "login:password"
 
+# curl -X PUT http://localhost:4300/v1/user/self -H "Content-Type: application/json" -d '{"first_name: Jdddane", "last_name": "Doe", "password": "skdjfhskdfjhg", "username": "jane.dode@example.com"}' --user "login:password"
+
 # GET http://localhost:4300/v1/user/self HTTP/1.1
-# Authorization: Basic golu@gmail.com:abcd
+# Authorization: Basic abc@gmail.com:Rolwyn@12345
 # content-type: application/json
 
-PUT http://localhost:4300/v1/user/self HTTP/1.1
-Authorization: Basic rolu@gmail.com:abcd
-content-type: application/json
+# PUT http://localhost:4300/v1/user/self HTTP/1.1
+# Authorization: Basic a@gmail.com:hahas
+# content-type: application/json
 
-{   
-    "firstname": "abcde",
-    "lastname": "abc",
-    "password": "haha"
-}
+# {   
+#     "firstname": "r",
+#     "lastname": "rolq",
+#     "password": "hahas"
+# }
