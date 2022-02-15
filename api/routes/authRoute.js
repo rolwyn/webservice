@@ -13,32 +13,12 @@ const app = require('../app');
 
 const router = express.Router();
 /**
- * all auth urls will here here
- * get      - get all data
- * post     - add new data
- * put      - update on existing data
- * delete   - delete the data from db
+ * auth urls
+ * get      - get data
+ * post     - add data
+ * put      - update the existing data
+ * delete   - delete data from db
  */
-
-// router.route('/signup')
-//    .post(
-//       verifySignUpDetails.checkForDuplicateUnameEmail,
-//       authController.signup)
-
-// router.route('/login')
-//    .post(
-//       verifySignUpDetails.checkExistingUser,
-//       authController.login)
-
-// router.route('/')
-//    .get((req, res) => 
-//    User.findAll()
-//       .then(users => {
-//          console.log(users);
-//          res.sendStatus(200);
-//       })
-//    .catch(err => console.log(err)))
-
 
 router.route('/')
    .post(
