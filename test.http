@@ -4,9 +4,9 @@
 # content-type: application/json 
 
 # {   
-#     "firstname": "rr",
-#     "lastname": "2w2",
-#     "emailid" : "abcde@gmail.com",
+#     "firstname": "h",
+#     "lastname": "h",
+#     "emailid" : "xdsd@gmail.com",
 #     "password": "Rolwyn@12345"
 # }
 
@@ -19,11 +19,11 @@
 # content-type: application/json
 
 # PUT http://localhost:4300/v1/user/self HTTP/1.1
-# Authorization: Basic a@gmail.com:hahas
+# Authorization: Basic a@gmail.com:Rolwyn@1234
 # content-type: application/json
 
 # {   
-#     "firstname": "r",
+#     "firstname": "rolwyn",
 #     "lastname": "rolq",
-#     "password": "hahas"
+#     "password": "Rolwyn@1234"
 # }

@@ -27,9 +27,15 @@ const setErrorResponse = (message, res, errCode=500) => {
     res.json({ error: message });
 }
 
+/**
+ * 
+ * @param {req} req body
+ * @param {res} the response to be sent 
+ * @returns a success response json or error 
+ */
 const signup = async (req, res) => {
     try {
-
+        // express validator to check if errors
         const validationErrors = validationResult(req);
         if (!validationErrors.isEmpty()) {
             return setErrorResponse(validationErrors.array(), res, 400)
@@ -38,22 +44,16 @@ const signup = async (req, res) => {
         if (req.body.account_created || req.body.account_updated || req.body.createdAt|| req.body.updatedAt || req.body.id) 
             return setErrorResponse(`Fields id, account_created, account_updated, updatedAt and createdAt are not accepted`, res, 400)
 
-        // if (req.body.createdAt) delete req.body['createdAt']
-        // if (req.body.updatedAt) delete req.body['updatedAt']
-
+        // check if user exists
         const existingUser = await checkExistingUser(req.body.emailid)
         if (typeof existingUser === 'object' && existingUser !== null) 
             return setErrorResponse(`User already exists or there is some error`, res, 400)
 
         const user = {...req.body, password: bcrypt.hashSync(req.body.password, 8)}
         const newUser = await signupuser(user)
-        const userData = newUser.toJSON()
-        // userData.account_created = userData.createdAt;
-        // userData.account_updated = userData.updatedAt;
-        // delete userData['createdAt']
-        // delete userData['updatedAt']
-        // delete userData['password']
 
+        // convert to json and return response without password
+        const userData = newUser.toJSON()
         let {password, ...newUserData} = {...userData}
         setSuccessResponse(newUserData, res)
     } catch (e) {
@@ -63,9 +63,7 @@ const signup = async (req, res) => {
 
 const authenticate = async (req, res) => {
     try {
-        console.log('///////////')
-        console.log(req.credentials.pass)
-
+        // the username and password from Basic Auth
         const requsername = req.credentials.name
         const reqpassword = req.credentials.pass
 
@@ -77,10 +75,8 @@ const authenticate = async (req, res) => {
             reqpassword,
             existingUser.password
         );
-
-        console.log("--------------")
-        console.log(isPasswordMatch)
  
+        // if wrong password throw 401
         if (!isPasswordMatch) return setErrorResponse(`Credentials do not match`, res, 401)
 
         const userData = existingUser.toJSON()
@@ -95,9 +91,14 @@ const authenticate = async (req, res) => {
 
 const updateUser = async (req, res) => {
     try {
-        console.log('//////////////////////////')
-        console.log(Sequelize.NOW)
 
+        // if any validation fails
+        const validationErrors = validationResult(req);
+        if (!validationErrors.isEmpty()) {
+            return setErrorResponse(validationErrors.array(), res, 400)
+        }
+        
+        // the username and password from Basic Auth
         const requsername = req.credentials.name
         const reqpassword = req.credentials.pass
 
@@ -109,20 +110,21 @@ const updateUser = async (req, res) => {
             reqpassword,
             existingUser.password
         );
-
-        console.log("--------------")
-        console.log(isPasswordMatch)
  
+        // if wrong password throw 401
         if (!isPasswordMatch) return setErrorResponse(`Credentials do not match`, res, 401)
 
+        // if the following field exists in request body throw Bad Request
         if (req.body.account_created || req.body.account_updated || req.body.createdAt|| req.body.updatedAt 
             || req.body.id || req.body.emailid) 
             return setErrorResponse(`{ Fields_not_allowed: id, username/emailid, account_created, account_updated, updatedAt and createdAt are not accepted }`, res, 400)
         
+        // append the details to the authenticated user
         existingUser.firstname = req.body.firstname
         existingUser.lastname = req.body.lastname
         existingUser.password =  bcrypt.hashSync(req.body.password, 8)
-
+        
+        // call the modifyUser service
         const updateUser = await modifyUser(existingUser)
         const updatedUser = updateUser.toJSON()
         updatedUser.username = updatedUser.emailid;

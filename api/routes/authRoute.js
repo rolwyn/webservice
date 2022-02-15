@@ -23,7 +23,8 @@ const router = express.Router();
 router.route('/')
    .post(
       body('emailid').isEmail(),
-      body('firstname').not().isEmpty(),
+      body('firstname').trim().not().isEmpty(),
+      body('lastname').trim().not().isEmpty(),
       body("password").isStrongPassword({
          minLength: 8,
          minNumbers: 1,
@@ -41,6 +42,14 @@ router.route('/self')
    )
    .put(
       basicAuth,
+      body('firstname').trim().not().isEmpty(),
+      body('lastname').trim().not().isEmpty(),
+      body("password").isStrongPassword({
+         minLength: 8,
+         minNumbers: 1,
+         minUppercase: 1
+      })
+     .withMessage("Password length should be greater than 8 with 1 uppercase and minimum 1 numeric"),
       controller.updateUser
    )
 
