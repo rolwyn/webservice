@@ -6,7 +6,8 @@ const authRouter = require('./authRoute')
  */
 module.exports = function(app) {
     app.get('/healthz', (req, res) => {
-        res.send('Health endpoint');
+        res.json();
+        // // res.sendStatus(200);
     });
     app.use('/v1/user', authRouter);
 }

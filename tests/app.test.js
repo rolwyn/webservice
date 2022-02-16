@@ -12,18 +12,18 @@ const api = supertest(app)
 
 app.get('/healthz', 
 	(req, res) => {
-    res.send('Health endpoint');
+    res.json();
 });
 
 // api to return 400 when email validation fails
-app.post('/v1/user',
-    body('email').isEmail(),
-	(req, res) => {
-        const validationErrors = validationResult(req);
-        if (!validationErrors.isEmpty()) {
-            res.status(400).send('Bad Request')
-        }
-});
+// app.post('/v1/user',
+//     body('email').isEmail(),
+// 	(req, res) => {
+//         const validationErrors = validationResult(req);
+//         if (!validationErrors.isEmpty()) {
+//             res.status(400).send('Bad Request')
+//         }
+// });
 
 test('HTTP Status code is 200, OK', async () => { 
     await api
@@ -31,15 +31,9 @@ test('HTTP Status code is 200, OK', async () => {
     .expect(200)
 })
 
-test('HTTP Status code is 400, Bad Request', async () => { 
-    await api
-    .post('/v1/user')
-    .query({ "email": 'example@gmail.com' })
-    .expect(400)
-})
-
-// test('HTTP Status code is 200, OK', async () => {
+// test('HTTP Status code is 400, Bad Request', async () => { 
 //     await api
-//         .get('/healthz')
-//         .expect(200)
+//     .post('/v1/user')
+//     .query({ "email": 'example@gmail.com' })
+//     .expect(400)
 // })
