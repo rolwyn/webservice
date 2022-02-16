@@ -8,14 +8,29 @@ const User = require('../models/User')
  * @returns the save promise 
  */
 
+/**
+ * 
+ * @param {user} user body from request 
+ * @returns a new user
+ */
 const signupuser = (user) => {
     return User.create(user)
 }
 
+/**
+ * 
+ * @param {emailid} emailid of the user
+ * @returns the user
+ */
 const checkExistingUser = (emailid) => {
     return User.findOne({ where: { emailid: emailid } })
 }
 
+/**
+ * 
+ * @param {existingUser} existing user from db
+ * @returns updated user information
+ */
 const modifyUser = (existingUser) => {
     return existingUser.save()
 }

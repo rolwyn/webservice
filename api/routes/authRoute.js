@@ -20,6 +20,7 @@ const router = express.Router();
  * delete   - delete data from db
  */
 
+// open route for adding a user
 router.route('/')
    .post(
       body('emailid').isEmail(),
@@ -34,7 +35,7 @@ router.route('/')
       controller.signup
    )
 
-
+// user routes only for authenticated users
 router.route('/self')
    .get(
       basicAuth,
