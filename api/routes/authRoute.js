@@ -23,7 +23,7 @@ const router = express.Router();
 // open route for adding a user
 router.route('/')
    .post(
-      body('emailid').isEmail(),
+      body('username').isEmail(),
       body('firstname').trim().not().isEmpty(),
       body('lastname').trim().not().isEmpty(),
       body("password").isStrongPassword({

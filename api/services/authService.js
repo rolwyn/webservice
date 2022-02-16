@@ -19,11 +19,11 @@ const signupuser = (user) => {
 
 /**
  * 
- * @param {emailid} emailid of the user
+ * @param {username} username of the user
  * @returns the user
  */
-const checkExistingUser = (emailid) => {
-    return User.findOne({ where: { emailid: emailid } })
+const checkExistingUser = (username) => {
+    return User.findOne({ where: { username: username } })
 }
 
 /**

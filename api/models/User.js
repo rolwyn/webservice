@@ -7,7 +7,7 @@ const User = db.define('users', {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4
     },
-    emailid: {
+    username: {
         type: Sequelize.STRING,
         unique: true
     },
