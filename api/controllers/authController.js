@@ -11,8 +11,8 @@ const Sequelize = require('sequelize')
  * @param {*} data take the response of the query and returns as JSON
  * @param {*} res server response if call is successful
  */
-const setSuccessResponse = (data, res) => {
-    res.status(200);
+const setSuccessResponse = (data, res, successCode=200) => {
+    res.status(successCode);
     res.json(data)
 }
 
@@ -24,6 +24,8 @@ const setSuccessResponse = (data, res) => {
  */
 const setErrorResponse = (message, res, errCode=500) => {
     res.status(errCode);
+    if (errCode == 500)
+        res.json();
     res.json({ error: message });
 }
 
@@ -45,7 +47,7 @@ const signup = async (req, res) => {
             return setErrorResponse(`Fields id, account_created, account_updated, updatedAt and createdAt are not accepted`, res, 400)
 
         // check if user exists
-        const existingUser = await checkExistingUser(req.body.emailid)
+        const existingUser = await checkExistingUser(req.body.username)
         if (typeof existingUser === 'object' && existingUser !== null) 
             return setErrorResponse(`User already exists or there is some error`, res, 400)
 
@@ -55,7 +57,7 @@ const signup = async (req, res) => {
         // convert to json and return response without password
         const userData = newUser.toJSON()
         let {password, ...newUserData} = {...userData}
-        setSuccessResponse(newUserData, res)
+        setSuccessResponse(newUserData, res, 201)
     } catch (e) {
         setErrorResponse(e.message, res)
     }
@@ -69,7 +71,7 @@ const authenticate = async (req, res) => {
 
         // pass header username(email) to check if user exists
         const existingUser = await checkExistingUser(requsername.toLowerCase())
-        if (existingUser == null) return setErrorResponse(`User not found`, res, 400)
+        if (existingUser == null) return setErrorResponse(`User not found`, res, 401)
 
         let isPasswordMatch = bcrypt.compareSync(
             reqpassword,
@@ -80,8 +82,7 @@ const authenticate = async (req, res) => {
         if (!isPasswordMatch) return setErrorResponse(`Credentials do not match`, res, 401)
 
         const userData = existingUser.toJSON()
-        userData.username = userData.emailid;
-        let {password, emailid, ...newUserData} = {...userData}
+        let {password, ...newUserData} = {...userData}
 
         setSuccessResponse(newUserData, res)
     } catch (e) {
@@ -104,7 +105,7 @@ const updateUser = async (req, res) => {
 
         // pass header username(email) to check if user exists
         let existingUser = await checkExistingUser(requsername.toLowerCase())
-        if (existingUser == null) return setErrorResponse(`User not found`, res, 400)
+        if (existingUser == null) return setErrorResponse(`User not found`, res, 401)
 
         let isPasswordMatch = bcrypt.compareSync(
             reqpassword,
@@ -116,8 +117,8 @@ const updateUser = async (req, res) => {
 
         // if the following field exists in request body throw Bad Request
         if (req.body.account_created || req.body.account_updated || req.body.createdAt|| req.body.updatedAt 
-            || req.body.id || req.body.emailid) 
-            return setErrorResponse(`{ Fields_not_allowed: id, username/emailid, account_created, account_updated, updatedAt and createdAt are not accepted }`, res, 400)
+            || req.body.id || req.body.username) 
+            return setErrorResponse(`{ Fields_not_allowed: id, username, account_created, account_updated, updatedAt and createdAt are not accepted }`, res, 400)
         
         // append the details to the authenticated user
         existingUser.firstname = req.body.firstname
@@ -126,10 +127,7 @@ const updateUser = async (req, res) => {
         
         // call the modifyUser service
         const updateUser = await modifyUser(existingUser)
-        const updatedUser = updateUser.toJSON()
-        updatedUser.username = updatedUser.emailid;
-        let {password, emailid, ...newUpdatedUser} = {...updatedUser}
-        setSuccessResponse(newUpdatedUser, res)
+        setSuccessResponse('', res, 204)
         
     } catch (e) {
         setErrorResponse(e.message, res)
