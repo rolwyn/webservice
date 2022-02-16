@@ -1,1 +1,29 @@
-GET http://localhost:4300/healthz HTTP/1.1
+# GET http://localhost:3000/healthz HTTP/1.1
+
+# POST http://localhost:3000/v1/user/ HTTP/1.1
+# content-type: application/json 
+
+# {   
+#     "firstname": "h",
+#     "lastname": "h",
+#     "emailid" : "rol@gmail.com",
+#     "password": "Rolwyn@12345"
+# }
+
+# curl -X GET http://localhost:3000/v1/user/self -H "Content-Type: application/json" --user "login:password"
+
+# curl -X PUT http://localhost:3000/v1/user/self -H "Content-Type: application/json" -d '{"first_name: rolwyn", "last_name": "quadras", "password": "Rolwyn@12345", "username": "rol@gmail.com"}' --user "rol@gmail.com:Rolwyn@12345"
+
+# GET http://localhost:3000/v1/user/self HTTP/1.1
+# Authorization: Basic cm9sQGdtYWlsLmNvbTpSb2x3eW5AMTIzNA==
+# content-type: application/json
+
+# PUT http://localhost:3000/v1/user/self HTTP/1.1
+# Authorization: Basic a@gmail.com:Rolwyn@1234
+# content-type: application/json
+
+# {   
+#     "firstname": "rolwyn",
+#     "lastname": "rolq",
+#     "password": "Rolwyn@1234"
+# }
