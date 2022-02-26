@@ -28,3 +28,8 @@
    ```Actions``` tab to check running workflow
 3. A pull request to Upstream branch will also trigger a workflow
 
+
+# Packer
+
+packer init application-ami.pkr.hcl
+packer build -var-file="dev-vars.pkr.hcl" .
