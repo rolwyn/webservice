@@ -1,5 +1,0 @@
-aws_region = "us-east-1"
-aws_access_key = ""
-aws_secret_key = ""
-subnet_id = "ss"
-source_ami = "ami-033b95fb8079dc481"
