@@ -34,7 +34,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: webapp_artifact
-          path: origin/assignment4
+          path: /
       
       - name: Step 3 - ls
         run: sudo ls -a
