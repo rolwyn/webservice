@@ -35,4 +35,4 @@ jobs:
           zip webservice ../webservice
 
       - name: Step 4 - ls
-        run: ls -R
+        run: ls -a
