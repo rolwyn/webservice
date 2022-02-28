@@ -36,3 +36,13 @@ jobs:
 
       - name: Step 4 - ls
         run: ls -a
+
+      - name: unzip to check
+        run: |
+          sudo yum install unzip
+          unzip latest.zip
+      
+      - name: check if zipped correctly
+        run: |
+          cd webservice
+          ls -a
