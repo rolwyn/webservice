@@ -20,5 +20,5 @@ jobs:
         uses: hashicorp/packer-github-actions@master
         with:
           command: validate
-          arguments: -var-file="variables.pkrvars.hcl"
+          arguments: -var-file=variables.pkrvars.hcl
           target: application-ami.pkr.hcl
