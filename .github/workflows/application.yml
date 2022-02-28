@@ -39,7 +39,6 @@ jobs:
 
       - name: unzip to check
         run: |
-          sudo apt -y install unzip
           unzip latest.zip
       
       - name: check if zipped correctly
