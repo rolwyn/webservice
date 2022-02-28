@@ -32,10 +32,7 @@ jobs:
 
       - name: zip files
         run: |
-          zip webservice ../webservice
-
-      - name: Step 4 - ls
-        run: ls -a
+          zip -r webservice.zip ./
 
       - name: unzip to check
         uses: montudor/action-zip@v1
