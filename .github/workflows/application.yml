@@ -51,7 +51,7 @@ jobs:
         uses: hashicorp/packer-github-actions@master
         with:
           command: build
-          arguments: -var 'AWS_ACCESS_KEY_ID=${{secrets.AWS_ACCESS_KEY_ID}}' -var 'AWS_SECRET_ACCESS_KEY=${{secrets.AWS_SECRET_ACCESS_KEY}}' -var-file=variables.pkrvars.hcl -on-error=abort
+          arguments: -var 'AWS_ACCESS_KEY_ID=${{secrets.AWS_ACCESS_KEY_ID}}' -var 'AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}' -var-file=variables.pkrvars.hcl -on-error=abort
           target: application-ami.pkr.hcl
         env:
           PACKER_LOG: 1
