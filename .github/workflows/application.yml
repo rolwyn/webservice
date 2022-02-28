@@ -22,17 +22,6 @@ jobs:
           command: validate
           arguments: -var-file=variables.pkrvars.hcl
           target: application-ami.pkr.hcl
-  create_artifact:
-    needs: packer_validate
-    runs-on: ubuntu-latest
-    name: My Artifact
-    steps:
-      - name: Step 1 - Checkout code
-        uses: actions/checkout@v2
-
-      - name: zip files
-        run: |
-          zip -r webservice.zip ./
   packer_build:
     needs: create_artifact
     runs-on: ubuntu-latest
@@ -41,6 +30,10 @@ jobs:
       - name: Step 1 - Checkout code
         uses: actions/checkout@v2
 
+      - name: zip files
+        run: |
+          zip -r webservice.zip ./
+          
       - name: Step 2 - Packer Init
         uses: hashicorp/packer-github-actions@master
         with:
