@@ -7,25 +7,34 @@ jobs:
     runs-on: ubuntu-latest
     name: Validate Template
     steps:
-      - name: Checkout code
+      - name: Step 1 - Checkout code
         uses: actions/checkout@v2
 
-      - name: Packer Init
+      - name: Step 2 - Packer Init
         uses: hashicorp/packer-github-actions@master
         with:
           command: init
           target: application-ami.pkr.hcl
 
-      - name: Packer Validate
+      - name: Step 3 - Packer Validate
         uses: hashicorp/packer-github-actions@master
         with:
           command: validate
-          arguments: -var-file=variables.pkrvars.hcls
+          arguments: -var-file=variables.pkrvars.hcl
           target: application-ami.pkr.hcl
-  my_second_job:
+  create_artifact:
     needs: packer_validate
     runs-on: ubuntu-latest
-    name: My second job
+    name: My Artifact
     steps:
-      - name: Checkout code
+      - name: Step 1 - Checkout code
         uses: actions/checkout@v2
+
+      - name: Step 2 - Upload Artifact github action
+        uses: actions/upload-artifact@v2
+        with:
+          name: webapp_artifact
+          path: /
+      
+      - name: Step 3 - ls
+        run: ls -a
