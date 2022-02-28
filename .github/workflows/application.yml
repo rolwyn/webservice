@@ -30,11 +30,16 @@ jobs:
       - name: Step 1 - Checkout code
         uses: actions/checkout@v2
 
-      - name: Step 2 - Upload Artifact github action
+      - name: Step 2 - Upload artifact github action
         uses: actions/upload-artifact@v2
         with:
           name: webapp_artifact
           path: ./
-      
-      - name: Step 3 - ls
-        run: sudo ls -a
+
+      - name: Step 3 - Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: webapp_artifact
+          
+      - name: Step 4 - ls
+        run: ls -R
