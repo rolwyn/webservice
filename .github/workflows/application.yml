@@ -1,0 +1,25 @@
+name: Web App
+on: 
+  push:
+    branches: [assignment4]
+jobs:
+  packer_validate:
+    name: Validate Template
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # install packer plugins
+      - name: Packer Init
+        uses: hashicorp/packer-github-actions@master
+        with:
+          command: init
+          target: application-ami.pkr.hcl
+
+      # validate packer template
+      - name: Packer Validate
+        uses: hashicorp/packer-github-actions@master
+        with:
+          command: validate
+          arguments: -syntax-only
+          target: -var-file="variables.pkrvars.hcl" application-ami.pkr.hcl
