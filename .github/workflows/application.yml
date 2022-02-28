@@ -23,7 +23,7 @@ jobs:
           arguments: -var-file=variables.pkrvars.hcl
           target: application-ami.pkr.hcl
   packer_build:
-    needs: create_artifact
+    needs: packer_validate
     runs-on: ubuntu-latest
     name: Build AMI
     steps:
