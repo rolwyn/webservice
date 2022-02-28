@@ -27,9 +27,19 @@ variable "ssh_username" {
   default = "ec2-user"
 }
 
+variable "AWS_ACCESS_KEY_ID" {
+  type    = string
+  default = ""
+}
+
+variable "AWS_SECRET_ACCESS_KEY" {
+  type    = string
+  default = ""
+}
+
 source "amazon-ebs" "ec2-user" {
-  // access_key    = "${env.AWS_ACCESS_KEY_ID}"
-  // secret_key    = "${env.AWS_SECRET_ACCESS_KEY}"
+  access_key    = "${var.AWS_ACCESS_KEY_ID}"
+  secret_key    = "${var.AWS_SECRET_ACCESS_KEY}"
   region        = "${var.ami_region}"
   instance_type = "t2.micro"
   source_ami    = "${var.source_ami}"

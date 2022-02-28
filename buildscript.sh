@@ -36,3 +36,12 @@ sudo /usr/pgsql-12/bin/postgresql-12-setup initdb
 sudo systemctl enable --now postgresql-12
 
 systemctl status postgresql-12
+
+sudo yum install -y unzip
+sudo which unzip
+sudo mkdir src
+# sudo cp webservice.zip src/
+# sudo cd src
+# sudo unzip webservice.zip
+# sudo cd webservice
+# sudo ls -a
