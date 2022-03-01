@@ -60,6 +60,15 @@ sudo chmod 755 /home/ec2-user
 sudo -u postgres psql
 sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'rolwyn12345';"
 sudo -u postgres psql -c "CREATE DATABASE testdb;"
-sudo -u postgres psql -c "SELECT * FROM testdb"
-sudo -u postgres psql -d testdb
+sudo -u postgres psql -c "DROP TABLE IF EXISTS users;"
+sudo -u postgres psql -c "CREATE TABLE links (\
+	id SERIAL PRIMARY KEY,\
+	url VARCHAR(255) NOT NULL,\
+	name VARCHAR(255) NOT NULL,\
+	description VARCHAR (255),\
+        last_update DATE\
+);"
+sudo -u postgres psql -c "INSERT INTO links (url, name) VALUES('https://www.postgresqltutorial.com','PostgreSQL Tutorial');"
+echo sudo -u postgres psql -d testdb
+sudo -u postgres psql -c "select * from testdb;"
 
