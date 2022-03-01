@@ -29,61 +29,18 @@ EOF
 # install version 12
 sudo yum install -y postgresql12 postgresql12-server
 
-sudo ps- ef | grep postgres
-
-sudo rm -rf /var/lib/pgsql/12
-
 # init db
 sudo /usr/pgsql-12/bin/postgresql-12-setup initdb
 
 # enable and start service with --now
 sudo systemctl enable --now postgresql-12
-# sudo systemctl start postgresql-12.service
 
-sudo cd /home/ec2-user
-# sudo -u postgres psql
-sudo su - postgres
+systemctl status postgresql-12
 
-# sudo passwd postgres
+# cd ~/webservice
 
-# su - postgres
-
-# createdb testdb
-
-# psql -c "ALTER USER postgres WITH PASSWORD 'rolwyn12345';"
-
-# sudo systemctl status postgresql-12
-
-# sudo cd ~/webservice
-
-# sudo -u postgres psql -d testdb
-# # ALTER USER user_name WITH PASSWORD 'new_password';
+# sudo -u postgres psql testdb
 # psql -c "ALTER USER postgres PASSWORD 'rolwyn12345';"
 
-# sudo -u postgres -i
-# sudo psql -c "ALTER USER postgres PASSWORD 'rolwyn12345';"
+# echo "ALTER USER postgres PASSWORD 'rolwyn12345'" > rst_pass.sql
 
-# sudo service postgresql restart
-# sudo systemctl restart postgresql-12
-# sudo service postgresql start
-
-# sudo psql -c "CREATE DATABASE testdb;"
-# sudo psql -c "CREATE DATABASE testdb';"
-# sudo -u postgres psql -d testdb
-
-
-# sudo -u postgres psql db_name
-
-
-
-
-# sudo unzip webservice.zip
-# sudo yum install -y unzip
-# sudo which unzip
-# sudo mkdir src
-# pwd ./src
-# sudo cp webservice.zip ./src/
-# sudo cd ~/
-# sudo unzip webservice.zip
-# sudo cd webservice
-# ls -a
