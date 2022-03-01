@@ -70,5 +70,5 @@ sudo -u postgres psql -c "CREATE TABLE users (\
 );"
 sudo -u postgres psql -c "INSERT INTO links (url, name) VALUES('https://www.postgresqltutorial.com','PostgreSQL Tutorial');"
 # echo sudo -u postgres psql -d testdb
-sudo -u postgres psql -c "select * from users;"
+sudo -u postgres psql -d testdb -c "select * from users;"
 
