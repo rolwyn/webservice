@@ -60,12 +60,15 @@ systemctl status postgresql-12
 # sudo su - postgres
 sudo su -
 sudo chmod 755 /home/ec2-user
-sudo -u postgres psql
+sudo su - postgres
+# sudo -u postgres psql
 sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'rolwyn12345';"
 sudo -u postgres psql -c "CREATE DATABASE testdb;"
 # sudo -u postgres psql -c "DROP TABLE IF EXISTS users;"
 
-sudo -u postgres psql testdb
+systemctl restart postgresql-12
+
+# sudo -u postgres psql testdb
 
 # sudo -u postgres psql -c 'show config_file'
 
