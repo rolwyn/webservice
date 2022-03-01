@@ -80,7 +80,9 @@ sudo -u postgres psql -c "CREATE DATABASE testdb;"
 
 
 # npm run start
-cat /etc/postgresql/12/main/pg_hba.conf
+ls /etc
+echo "etc fdsfsdf"
+ls /etc/postgresql/12/main/
 
 # npm
 
