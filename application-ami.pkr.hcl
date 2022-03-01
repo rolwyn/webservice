@@ -59,12 +59,13 @@ build {
     source = "webservice.zip"
     destination = "~/"
   }
-  // provisioner "shell" {
-  //   inline = [
-  //     "cd ~",
-  //     "unzip webservice.zip"
-  //   ]
-  // }
+  provisioner "shell" {
+    inline = [
+      "cd ~",
+      "sudo mkdir webservice"
+      "unzip webservice.zip -d webservice"
+    ]
+  }
   provisioner "shell" {
     scripts = [
       "./buildscript.sh",
