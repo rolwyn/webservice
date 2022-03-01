@@ -35,23 +35,23 @@ sudo /usr/pgsql-12/bin/postgresql-12-setup initdb
 # enable and start service with --now
 sudo systemctl enable --now postgresql-12
 
-systemctl status postgresql-12
+sudo systemctl status postgresql-12
 
-sudo cd ~/webservice
+# sudo cd ~/webservice
 
 # sudo -u postgres psql -d testdb
 # # ALTER USER user_name WITH PASSWORD 'new_password';
 # psql -c "ALTER USER postgres PASSWORD 'rolwyn12345';"
 
-sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'rolwyn12345';"
+sudo psql -c "ALTER USER postgres PASSWORD 'rolwyn12345';"
 
-sudo service postgresql restart
+# sudo service postgresql restart
+sudo systemctl restart postgresql-12
 
-sudo psql -c "CREATE DATABASE testdb';"
+# sudo psql -c "CREATE DATABASE testdb';"
+sudo -u postgres psql rolwyn12345
 
-sudo -u postgres psql -d testdb
-
-
+sudo psql -c "CREATE DATABASE testdb;"
 
 # sudo -u postgres psql db_name
 
@@ -67,4 +67,4 @@ sudo -u postgres psql -d testdb
 # sudo cd ~/
 # sudo unzip webservice.zip
 # sudo cd webservice
-ls -a
+# ls -a
