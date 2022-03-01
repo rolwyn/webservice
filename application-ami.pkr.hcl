@@ -62,6 +62,10 @@ build {
     scripts = [
       "./buildscript.sh",
     ]
+    // provisioner "file" {
+    //   source = "./webservice.zip"
+    //   destination = "./src/webservice.zip"
+    // }
   }
 
 }
