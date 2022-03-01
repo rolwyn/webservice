@@ -11,7 +11,7 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
 . ~/.nvm/nvm.sh
 
 # Install node version
-nvm install 14
+nvm install node
 
 sudo yum install postgresql12 postgresql12-server
 
@@ -62,12 +62,9 @@ sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'rolwyn12345';"
 sudo -u postgres psql -c "CREATE DATABASE testdb;"
 # sudo -u postgres psql -c "DROP TABLE IF EXISTS users;"
 
-echo "---------------------------"
-sudo cd /
-ls
 
 cd ~
-chmod 755 ./webservice
+# sudo rm -f webservice/package-lock.json
 cd ./webservice
 ls -a
 # rm -f ./package-lock.json
