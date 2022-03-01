@@ -62,7 +62,7 @@ build {
     inline = ["mkdir /src"]
   }
   provisioner "file" {
-    source = "/home/runner/work/webservice/webservice"
+    source = "/home/runner/work/webservice/webservice.zip"
     destination = "/src/"
   }
   provisioner "shell" {
