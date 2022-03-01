@@ -46,6 +46,7 @@ systemctl status postgresql-12
 
 sudo su -
 sudo chmod 755 /home/ec2-user
+psql --command='create ROLE "ec2-user"'
 sudo su - postgres
 psql -c "ALTER USER postgres PASSWORD 'rolwyn12345';"
 # sudo -u postgres psql -d testdb
