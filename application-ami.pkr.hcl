@@ -65,7 +65,7 @@ build {
       "sudo mkdir -v -m755 webservice",
       "sudo unzip webservice.zip -d webservice",
       "cd ./webservice",
-      "rm -f ./package-lock.json"
+      "sudo rm -f webservice/package-lock.json"
     ]
   }
   provisioner "shell" {
