@@ -33,7 +33,6 @@ jobs:
       - name: zip files
         run: |
           zip -r webservice.zip ./
-          pwd ./webservice.zip
           
       - name: Step 2 - Packer Init
         uses: hashicorp/packer-github-actions@master

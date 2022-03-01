@@ -47,30 +47,24 @@ source "amazon-ebs" "ec2-user" {
   ami_name      = "${var.ami_name}"
   ami_description = "AMI - Spring 2022"
   ami_users=[605680160689]
-  // launch_block_device_mappings {
-  //   device_name = "/dev/sda1"
-  //   volume_size = 8
-  //   volume_type = "gp2"
-  //   delete_on_termination = true
-  // }
 }
 
 build {
   sources = ["source.amazon-ebs.ec2-user"]
-
-  // provisioner "shell" {
-  //   inline = ["mkdir /src"]
-  // }
-  provisioner "file" {
-    source = "webservice.zip"
-    destination = "~/"
-  }
+  // wait till complete boot
   provisioner "shell" {
-    inline = [
-      "cd ~",
-      "unzip webservice.zip"
-    ]
+    inline = ["sleep 10"]
   }
+  // provisioner "file" {
+  //   source = "webservice.zip"
+  //   destination = "~/"
+  // }
+  // provisioner "shell" {
+  //   inline = [
+  //     "cd ~",
+  //     "unzip webservice.zip"
+  //   ]
+  // }
   provisioner "shell" {
     scripts = [
       "./buildscript.sh",

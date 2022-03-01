@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -x
 
 # DEBIAN_FRONTEND="noninteractive"
 
@@ -36,6 +36,10 @@ sudo /usr/pgsql-12/bin/postgresql-12-setup initdb
 sudo systemctl enable --now postgresql-12
 
 systemctl status postgresql-12
+
+sudo cp webservice.zip ~/
+sudo unzip webservice.zip
+
 
 # sudo yum install -y unzip
 # sudo which unzip
