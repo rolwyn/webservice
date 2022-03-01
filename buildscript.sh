@@ -59,7 +59,7 @@ systemctl status postgresql-12
 
 
 sudo chmod 777 /home/ec2-user
-sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'abcd';"
+sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD '';"
 sudo -u postgres psql -c "CREATE DATABASE testdb;"
 
 # sudo su - postgres
@@ -85,7 +85,6 @@ sudo -u postgres psql -c "CREATE DATABASE testdb;"
 sudo chmod -R 777 ./webservice
 cd ./webservice
 ls -a
-# rm -f ./package-lock.json
 npm install
 npm run start
 ls -a
