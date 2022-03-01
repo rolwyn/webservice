@@ -70,7 +70,7 @@ cd ~
 chmod 755 ./webservice
 cd ./webservice
 ls -a
-rm -f ./package-lock.json
+# rm -f ./package-lock.json
 npm install
 
 # sudo npm install
