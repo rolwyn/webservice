@@ -86,7 +86,7 @@ cd ./webservice
 ls -a
 # rm -f ./package-lock.json
 npm install
-# npm run start
+npm run start
 ls -a
 
 # sudo npm install
