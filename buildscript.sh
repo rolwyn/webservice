@@ -64,6 +64,7 @@ sudo -u postgres psql -c "CREATE DATABASE testdb;"
 
 cd ~
 cd ./webservice
+chmod 755 ./webservice
 ls -a
 npm install --production
 
