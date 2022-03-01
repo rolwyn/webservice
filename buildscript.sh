@@ -61,14 +61,22 @@ sudo -u postgres psql
 sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'rolwyn12345';"
 sudo -u postgres psql -c "CREATE DATABASE testdb;"
 # sudo -u postgres psql -c "DROP TABLE IF EXISTS users;"
-sudo -u postgres psql -d testdb -c "CREATE TABLE users (\
-	id SERIAL PRIMARY KEY,\
-	url VARCHAR(255) NOT NULL,\
-	name VARCHAR(255) NOT NULL,\
-	description VARCHAR (255),\
-        last_update DATE\
-);"
-sudo -u postgres psql -d testdb -c "INSERT INTO users (url, name) VALUES('https://www.postgresqltutorial.com','PostgreSQL Tutorial');"
-# echo sudo -u postgres psql -d testdb
-sudo -u postgres psql -d testdb -c "SELECT * FROM users;"
+
+cd ~/webservice
+sudo npm install
+npm run start
+
+
+
+# testing
+# sudo -u postgres psql -d testdb -c "CREATE TABLE users (\
+# 	id SERIAL PRIMARY KEY,\
+# 	url VARCHAR(255) NOT NULL,\
+# 	name VARCHAR(255) NOT NULL,\
+# 	description VARCHAR (255),\
+#         last_update DATE\
+# );"
+# sudo -u postgres psql -d testdb -c "INSERT INTO users (url, name) VALUES('https://www.sss.com','ddd');"
+# # echo sudo -u postgres psql -d testdb
+# sudo -u postgres psql -d testdb -c "SELECT * FROM users;"
 
