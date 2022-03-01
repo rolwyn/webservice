@@ -37,14 +37,18 @@ sudo rm -rf /var/lib/pgsql/12
 sudo /usr/pgsql-12/bin/postgresql-12-setup initdb
 
 # enable and start service with --now
-# sudo systemctl enable --now postgresql-12
-sudo systemctl start postgresql-12.service
+sudo systemctl enable --now postgresql-12
+# sudo systemctl start postgresql-12.service
 
-sudo passwd postgres
+sudo -u postgres psql
 
-su - postgres
+# sudo passwd postgres
 
-psql -c "ALTER USER postgres WITH PASSWORD 'rolwyn12345';"
+# su - postgres
+
+# createdb testdb
+
+# psql -c "ALTER USER postgres WITH PASSWORD 'rolwyn12345';"
 
 # sudo systemctl status postgresql-12
 
