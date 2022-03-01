@@ -68,7 +68,7 @@ sudo -u postgres psql -c "CREATE TABLE users (\
 	description VARCHAR (255),\
         last_update DATE\
 );"
-sudo -u postgres psql -c "INSERT INTO links (url, name) VALUES('https://www.postgresqltutorial.com','PostgreSQL Tutorial');"
+sudo -u postgres psql -c "INSERT INTO users (url, name) VALUES('https://www.postgresqltutorial.com','PostgreSQL Tutorial');"
 # echo sudo -u postgres psql -d testdb
-sudo -u postgres psql -d testdb -c "select * from users;"
+sudo -u postgres psql -d testdb -c 'SELECT * FROM users;'
 
