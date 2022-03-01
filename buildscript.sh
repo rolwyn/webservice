@@ -38,6 +38,15 @@ sudo systemctl enable --now postgresql-12
 systemctl status postgresql-12
 
 cd ~/webservice
+
+sudo -u postgres psql -d testdb
+# ALTER USER user_name WITH PASSWORD 'new_password';
+psql -c "ALTER USER postgres PASSWORD 'rolwyn12345';"
+
+
+
+
+
 # sudo unzip webservice.zip
 # sudo yum install -y unzip
 # sudo which unzip
