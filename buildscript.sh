@@ -63,8 +63,9 @@ sudo -u postgres psql -c "CREATE DATABASE testdb;"
 # sudo -u postgres psql -c "DROP TABLE IF EXISTS users;"
 
 cd ~/webservice
-sudo npm install
-sudo npm run start
+# sudo npm install
+# sudo npm run start
+npm --version
 
 # npm
 
