@@ -45,6 +45,16 @@ sudo cd ~/webservice
 
 sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'rolwyn12345';"
 
+sudo service postgresql restart
+
+sudo psql -c "CREATE DATABASE testdb';"
+
+sudo -u postgres psql -d testdb
+
+
+
+# sudo -u postgres psql db_name
+
 
 
 
