@@ -62,6 +62,10 @@ sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'rolwyn12345';"
 sudo -u postgres psql -c "CREATE DATABASE testdb;"
 # sudo -u postgres psql -c "DROP TABLE IF EXISTS users;"
 
+echo "---------------------------"
+sudo cd /
+ls
+
 cd ~
 chmod 755 ./webservice
 cd ./webservice
