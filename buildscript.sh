@@ -37,12 +37,12 @@ sudo systemctl enable --now postgresql-12
 
 systemctl status postgresql-12
 
-sudo yum install -y unzip
-sudo which unzip
-sudo mkdir src
-pwd ./src
+# sudo yum install -y unzip
+# sudo which unzip
+# sudo mkdir src
+# pwd ./src
 # sudo cp webservice.zip ./src/
 sudo cd ./src
-sudo unzip webservice.zip
-sudo cd webservice
+# sudo unzip webservice.zip
+# sudo cd webservice
 sudo ls -a
