@@ -55,7 +55,7 @@ systemctl status postgresql-12
 # psql -c "select * from testdb;"
 
 # sudo su - postgres
-sudo su postgres psql
+sudo -u postgres psql postgres
 psql -c "ALTER USER postgres PASSWORD 'rolwyn12345';"
 psql -c "CREATE DATABASE testdb;"
 psql -c "SELECT * FROM testdb"
