@@ -50,8 +50,8 @@ systemctl status postgresql-12
 sudo chmod 777 /home/ec2-user
 sudo systemctl restart postgresql-12
 sudo -u postgres psql
-psql -c "ALTER USER postgres WITH PASSWORD rolwyn12345;"
-psql -c "CREATE DATABASE testdb;"
+sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD rolwyn12345;"
+sudo -u postgres psql -c "CREATE DATABASE testdb;"
 exit
 
 # sudo su - postgres
@@ -78,6 +78,7 @@ sudo chmod -R 777 ./webservice
 cd ./webservice
 ls -a
 npm install
+sudo systemctl restart postgresql-12
 npm run start
 ls -a
 
