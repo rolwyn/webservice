@@ -45,22 +45,12 @@ systemctl status postgresql-12
 # sudo -u postgres psql testdb
 # psql -c "ALTER USER postgres PASSWORD 'rolwyn12345';"
 
-# echo "ALTER USER postgres PASSWORD 'rolwyn12345'" > rst_pass.sql
-
-# sudo su -
-# sudo chmod 755 /home/ec2-user
-# sudo psql --command='create ROLE "ec2-user"'
-# sudo su - postgres
-# psql -c "ALTER USER postgres PASSWORD 'rolwyn12345';"
-# # sudo -u postgres psql -d testdb
-# # sudo -u postgres createdb testdb
-# sudo -u postgres psql -d testdb
-# psql -c "select * from testdb;"
 
 
 sudo chmod 777 /home/ec2-user
-sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD '';"
+sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'rolwyn12345';"
 sudo -u postgres psql -c "CREATE DATABASE testdb;"
+sudo systemctl restart postgresql-12
 
 # sudo su - postgres
 # sudo -u postgres psql
@@ -86,7 +76,7 @@ sudo chmod -R 777 ./webservice
 cd ./webservice
 ls -a
 npm install
-npm run start
+sudo npm run start
 ls -a
 
 # sudo npm install
