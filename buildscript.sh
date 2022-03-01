@@ -42,7 +42,7 @@ systemctl status postgresql-12
 # sudo mkdir src
 # pwd ./src
 # sudo cp webservice.zip ./src/
-sudo cd ./src
+# sudo cd ~/
 # sudo unzip webservice.zip
 # sudo cd webservice
 sudo ls -a
