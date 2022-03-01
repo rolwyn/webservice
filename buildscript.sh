@@ -43,12 +43,11 @@ systemctl status postgresql-12
 # psql -c "ALTER USER postgres PASSWORD 'rolwyn12345';"
 
 # echo "ALTER USER postgres PASSWORD 'rolwyn12345'" > rst_pass.sql
-exit
+
 sudo su -
 sudo chmod 755 /home/ec2-user
-su - postgres
+sudo su - postgres
 psql -c "ALTER USER postgres PASSWORD 'rolwyn12345';"
-exit
 # sudo -u postgres psql -d testdb
 sudo -u postgres createdb testdb
 
