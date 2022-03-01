@@ -42,9 +42,9 @@ sudo systemctl start postgresql-12.service
 
 sudo passwd postgres
 
-sudo su - postgres
+su - postgres
 
-sudo psql -c "ALTER USER postgres WITH PASSWORD 'rolwyn12345';"
+psql -c "ALTER USER postgres WITH PASSWORD 'rolwyn12345';"
 
 # sudo systemctl status postgresql-12
 
