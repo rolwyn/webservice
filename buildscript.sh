@@ -23,7 +23,6 @@ ls -a
 # rm -f ./package-lock.json
 npm install
 ls -a
-npm run start
 
 # sudo npm install
 # sudo npm run start
@@ -80,7 +79,7 @@ sudo -u postgres psql -c "CREATE DATABASE testdb;"
 # sudo -u postgres psql -c "DROP TABLE IF EXISTS users;"
 
 
-
+npm run start
 
 # npm
 
