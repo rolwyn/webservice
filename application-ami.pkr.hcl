@@ -63,8 +63,8 @@ build {
     inline = [
       "cd ~",
       "sudo mkdir -v -m755 webservice",
-      "sudo unzip webservice.zip -d webservice"
-      "cd ./webservice"
+      "sudo unzip webservice.zip -d webservice",
+      "cd ./webservice",
       "rm -f ./package-lock.json"
     ]
   }
