@@ -29,11 +29,16 @@ EOF
 # install version 12
 sudo yum install -y postgresql12 postgresql12-server
 
+sudo ps- ef | grep postgres
+
+rm -rf /var/lib/pgsql/12
+
 # init db
 sudo /usr/pgsql-12/bin/postgresql-12-setup initdb
 
 # enable and start service with --now
-sudo systemctl enable --now postgresql-12
+# sudo systemctl enable --now postgresql-12
+systemctl start postgresql-12.service
 
 sudo systemctl status postgresql-12
 
@@ -44,7 +49,7 @@ sudo systemctl status postgresql-12
 # psql -c "ALTER USER postgres PASSWORD 'rolwyn12345';"
 
 sudo -u postgres -i
-psql -c "ALTER USER postgres PASSWORD 'rolwyn12345';"
+sudo psql -c "ALTER USER postgres PASSWORD 'rolwyn12345';"
 
 # sudo service postgresql restart
 # sudo systemctl restart postgresql-12
