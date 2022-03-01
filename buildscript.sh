@@ -32,7 +32,7 @@ sudo yum install -y postgresql12 postgresql12-server
 # init db
 sudo /usr/pgsql-12/bin/postgresql-12-setup initdb
 
-# enable and start service with --now
+# enables and start service with --now
 sudo systemctl enable --now postgresql-12
 
 systemctl status postgresql-12
