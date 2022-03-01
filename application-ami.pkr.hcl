@@ -62,8 +62,8 @@ build {
   provisioner "shell" {
     inline = [
       "cd ~",
-      "sudo mkdir webservice",
-      "unzip webservice.zip -d webservice"
+      "sudo mkdir -v -m755 webservice"
+      "sudo unzip webservice.zip -d webservice"
     ]
   }
   provisioner "shell" {
