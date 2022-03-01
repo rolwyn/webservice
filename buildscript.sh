@@ -44,7 +44,7 @@ systemctl status postgresql-12
 
 # echo "ALTER USER postgres PASSWORD 'rolwyn12345'" > rst_pass.sql
 
-
+psql --command='create ROLE "ec2-user"'
 sudo su -
 sudo chmod 755 /home/ec2-user
 su - postgres
