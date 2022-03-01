@@ -45,13 +45,14 @@ sudo systemctl status postgresql-12
 
 sudo psql -c "ALTER USER postgres PASSWORD 'rolwyn12345';"
 
-# sudo service postgresql restart
-sudo systemctl restart postgresql-12
-
-# sudo psql -c "CREATE DATABASE testdb';"
-sudo -u postgres psql rolwyn12345
+sudo service postgresql restart
+# sudo systemctl restart postgresql-12
+# sudo service postgresql start
 
 sudo psql -c "CREATE DATABASE testdb;"
+# sudo psql -c "CREATE DATABASE testdb';"
+sudo -u postgres psql -d testdb
+
 
 # sudo -u postgres psql db_name
 
