@@ -66,6 +66,8 @@ cd ~/webservice
 sudo npm install
 sudo npm run start
 
+# npm
+
 
 
 # testing
