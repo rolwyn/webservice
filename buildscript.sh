@@ -79,7 +79,8 @@ sudo -u postgres psql -c "CREATE DATABASE testdb;"
 # sudo -u postgres psql -c "DROP TABLE IF EXISTS users;"
 
 
-npm run start
+# npm run start
+echo /etc/postgresql/12/main/pg_hba.conf
 
 # npm
 
