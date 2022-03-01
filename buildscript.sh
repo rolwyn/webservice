@@ -78,7 +78,7 @@ sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'rolwyn12345';"
 sudo -u postgres psql -c "CREATE DATABASE testdb;"
 # sudo -u postgres psql -c "DROP TABLE IF EXISTS users;"
 
-sudo -u postgres psql rolwyn12345
+sudo -u postgres psql testdb
 
 # sudo -u postgres psql -c 'show config_file'
 
