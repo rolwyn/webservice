@@ -66,7 +66,10 @@ build {
     destination = "/src/"
   }
   provisioner "shell" {
-    inline = ["unzip webservice.zip"]
+    inline = [
+      "cd /src/"
+      "unzip /src/webservice.zip"
+    ]
   }
   provisioner "shell" {
     scripts = [
