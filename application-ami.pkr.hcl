@@ -55,10 +55,10 @@ build {
   provisioner "shell" {
     inline = ["sleep 10"]
   }
-  // provisioner "file" {
-  //   source = "webservice.zip"
-  //   destination = "~/"
-  // }
+  provisioner "file" {
+    source = "webservice.zip"
+    destination = "~/"
+  }
   // provisioner "shell" {
   //   inline = [
   //     "cd ~",

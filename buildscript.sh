@@ -1,4 +1,4 @@
-#!/bin/sh -x
+#!/bin/sh
 
 # DEBIAN_FRONTEND="noninteractive"
 
@@ -37,10 +37,8 @@ sudo systemctl enable --now postgresql-12
 
 systemctl status postgresql-12
 
-sudo cp webservice.zip ~/
+cd ~
 sudo unzip webservice.zip
-
-
 # sudo yum install -y unzip
 # sudo which unzip
 # sudo mkdir src
@@ -49,4 +47,4 @@ sudo unzip webservice.zip
 # sudo cd ~/
 # sudo unzip webservice.zip
 # sudo cd webservice
-sudo ls -a
+ls -a
