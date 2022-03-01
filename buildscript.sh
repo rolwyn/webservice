@@ -58,15 +58,15 @@ systemctl status postgresql-12
 # psql -c "select * from testdb;"
 
 # sudo su - postgres
-sudo su -
-sudo chmod 755 /home/ec2-user
-sudo su - postgres
+# sudo su -
+# sudo chmod 755 /home/ec2-user
+# sudo su - postgres
 # sudo -u postgres psql
+sudo -u postgres -i
+sudo -u postgres psql
 sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'rolwyn12345';"
 sudo -u postgres psql -c "CREATE DATABASE testdb;"
 # sudo -u postgres psql -c "DROP TABLE IF EXISTS users;"
-
-systemctl restart postgresql-12
 
 # sudo -u postgres psql testdb
 
@@ -86,7 +86,7 @@ cd ./webservice
 ls -a
 # rm -f ./package-lock.json
 npm install
-npm run start
+# npm run start
 ls -a
 
 # sudo npm install
