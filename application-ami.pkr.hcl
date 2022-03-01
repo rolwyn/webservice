@@ -67,7 +67,7 @@ build {
   }
   provisioner "shell" {
     inline = [
-      "cd /src/"
+      "cd /src/",
       "unzip /src/webservice.zip"
     ]
   }
