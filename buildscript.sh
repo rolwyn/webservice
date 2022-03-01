@@ -15,19 +15,6 @@ nvm install node
 nvm use 16
 node --version
 
-# cd ~
-# sudo rm -f webservice/package-lock.json
-sudo chmod -R 777 ./webservice
-cd ./webservice
-ls -a
-# rm -f ./package-lock.json
-npm install
-ls -a
-
-# sudo npm install
-# sudo npm run start
-npm --version
-
 
 sudo yum install postgresql12 postgresql12-server
 
@@ -89,7 +76,19 @@ sudo -u postgres psql testdb
 
 # npm
 
+# cd ~
+# sudo rm -f webservice/package-lock.json
+sudo chmod -R 777 ./webservice
+cd ./webservice
+ls -a
+# rm -f ./package-lock.json
+npm install
+npm run start
+ls -a
 
+# sudo npm install
+# sudo npm run start
+npm --version
 
 # testing
 # sudo -u postgres psql -d testdb -c "CREATE TABLE users (\
