@@ -64,7 +64,7 @@ sudo -u postgres psql -c "CREATE DATABASE testdb;"
 
 cd ~/webservice
 sudo npm install
-npm run start
+sudo npm run start
 
 
 
