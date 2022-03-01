@@ -59,6 +59,7 @@ sudo su -
 sudo chmod 755 /home/ec2-user
 sudo -u postgres psql
 sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'rolwyn12345';"
-# psql -c "CREATE DATABASE testdb;"
-# psql -c "SELECT * FROM testdb"
+sudo -u postgres psql -c "CREATE DATABASE testdb;"
+sudo -u postgres psql -c "SELECT * FROM testdb"
+sudo -u postgres psql -d testdb
 
