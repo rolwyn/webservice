@@ -15,6 +15,21 @@ nvm install node
 nvm use 16
 node --version
 
+# cd ~
+# sudo rm -f webservice/package-lock.json
+sudo chmod -R 777 ./webservice
+cd ./webservice
+ls -a
+# rm -f ./package-lock.json
+npm install
+ls -a
+npm run start
+
+# sudo npm install
+# sudo npm run start
+npm --version
+
+
 sudo yum install postgresql12 postgresql12-server
 
 sudo amazon-linux-extras | grep postgre
@@ -65,17 +80,7 @@ sudo -u postgres psql -c "CREATE DATABASE testdb;"
 # sudo -u postgres psql -c "DROP TABLE IF EXISTS users;"
 
 
-# cd ~
-# sudo rm -f webservice/package-lock.json
-sudo chmod -R 777 ./webservice
-cd ./webservice
-ls -a
-# rm -f ./package-lock.json
-npm install
 
-# sudo npm install
-# sudo npm run start
-npm --version
 
 # npm
 
