@@ -62,9 +62,11 @@ sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'rolwyn12345';"
 sudo -u postgres psql -c "CREATE DATABASE testdb;"
 # sudo -u postgres psql -c "DROP TABLE IF EXISTS users;"
 
-sudo cd ~/webservice/
+cd ~
+cd ./webservice
 ls -a
 npm install --production
+
 # sudo npm install
 # sudo npm run start
 npm --version
