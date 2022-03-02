@@ -48,15 +48,17 @@ systemctl status postgresql-12
 
 
 sudo chmod 777 /home/ec2-user
-sudo -u postgres psql
-sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'rolwyn12345';"
-sudo -u postgres psql -c "CREATE DATABASE testdb;"
+# sudo -u postgres psql
+sudo -u postgres bash -c "psql -c \"ALTER USER postgres with PASSWORD 'newpass';\""
+sudo -u postgres bash -c "psql -c \"CREATE DATABASE testdb;\""
+# sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'rolwyn12345';"
+# sudo -u postgres psql -c "CREATE DATABASE testdb;"
 
-sudo sed -i -e '1ilisten_addresses = '*'\' /var/lib/pgsql/12/data/postgresql.conf
-sudo sed -i -e '1ihost  all  all 0.0.0.0/0 md5\' /var/lib/pgsql/12/data/postgresql.conf
+# sudo sed -i -e '1ilisten_addresses = '*'\' /var/lib/pgsql/12/data/postgresql.conf
+# sudo sed -i -e '1ihost  all  all 0.0.0.0/0 md5\' /var/lib/pgsql/12/data/postgresql.conf
 
-sudo systemctl restart postgresql-12
-systemctl status postgresql-12
+# sudo systemctl restart postgresql-12
+# systemctl status postgresql-12
 
 # sudo su - postgres
 # sudo -u postgres psql
