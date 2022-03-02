@@ -31,6 +31,11 @@
 
 # Packer
 
-packer init application-ami.pkr.hcl
-<!-- packer build -var-file="dev-vars.pkr.hcl" . -->
-packer build -var-file="variables.pkrvars.hcl" application-ami.pkr.hcl
+Packer init command to install plugins
+
+```packer init application-ami.pkr.hcl```
+
+
+Packer build command
+
+```packer build -var-file="variables.pkrvars.hcl" application-ami.pkr.hcl```
