@@ -94,10 +94,10 @@ npm install pm2 -g
 sudo chmod -R 777 ./webservice
 cd ./webservice
 npm install
-# pm2 start server.js
-# pm2 startup systemd
-# pm2 save
-# pm2 list
+pm2 start server.js
+pm2 startup systemd
+pm2 save
+pm2 list
 
 # sudo npm install
 # sudo npm run start
