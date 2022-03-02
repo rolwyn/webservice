@@ -12,7 +12,7 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
 
 # Install node version
 nvm install node
-nvm use 16
+# nvm use 16
 node --version
 
 
@@ -96,26 +96,15 @@ sudo yum install -y gcc gcc-c++ make openssl-devel git
 sudo yum install -y nodejs
 # cd ~
 # sudo rm -f webservice/package-lock.json
-npm install pm2 -g
-cd ./webservice
-pm2 start server.js
+npm install pm2@latest -g
+pm2 update
+chmod -R 755 ./webservice
+# cd ./webservice
+sudo pm2 start ./webservice/server.js --cron
+sudo pm2 startup
+sudo pm2 save
+
 # pm2 startup systemd
 # pm2 save
 # pm2 list
-
-# sudo npm install
-# sudo npm run start
-npm --version
-
-# testing
-# sudo -u postgres psql -d testdb -c "CREATE TABLE users (\
-# 	id SERIAL PRIMARY KEY,\
-# 	url VARCHAR(255) NOT NULL,\
-# 	name VARCHAR(255) NOT NULL,\
-# 	description VARCHAR (255),\
-#         last_update DATE\
-# );"
-# sudo -u postgres psql -d testdb -c "INSERT INTO users (url, name) VALUES('https://www.sss.com','ddd');"
-# # echo sudo -u postgres psql -d testdb
-# sudo -u postgres psql -d testdb -c "SELECT * FROM users;"
 
