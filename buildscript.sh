@@ -53,7 +53,7 @@ sudo -u postgres psql
 sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'rolwyn12345';"
 sudo -u postgres psql -c "CREATE DATABASE testdb;"
 
-sudo sed -1i -e 'host  all  all 0.0.0.0/0 md5\' /var/lib/pgsql/12/data/postgresql.conf
+sudo sed -i -e '1iHere is my new top line\' /var/lib/pgsql/12/data/postgresql.conf
 
 # sudo su - postgres
 # sudo -u postgres psql
