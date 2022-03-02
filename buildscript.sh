@@ -94,9 +94,9 @@ sudo -u postgres bash -c "psql -c \"ALTER USER postgres with PASSWORD 'rolwyn123
 curl --silent --location https://rpm.nodesource.com/setup_17.x | sudo bash -
 sudo yum install -y nodejs
 
-npm install pm2@latest -g
+sudo npm install pm2@latest -g
 # sudo chmod -R 755 ./webservice
 cd ~/webservice
-pm2 start server.js --cron
-pm2 startup systemd
-pm2 save
+sudo pm2 start server.js
+sudo pm2 startup systemd
+sudo pm2 save
