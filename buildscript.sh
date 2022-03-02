@@ -100,9 +100,9 @@ npm install pm2@latest -g
 pm2 update
 sudo chmod -R 755 ./webservice
 # cd ./webservice
-sudo pm2 start ./webservice/server.js --cron
-sudo pm2 startup
-sudo pm2 save
+pm2 start ./webservice/server.js --cron
+pm2 startup
+pm2 save
 
 # pm2 startup systemd
 # pm2 save
