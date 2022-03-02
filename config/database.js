@@ -5,7 +5,6 @@ const db = new Sequelize('testdb', 'postgres', 'rolwyn12345', {
     host:  'localhost',
     dialect: 'postgres',
     operatorsAlias: false,
-    port: 3000,
 
     pool: {
         max: 5,
