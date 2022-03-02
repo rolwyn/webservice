@@ -6,14 +6,14 @@ echo "Assignment 4"
 
 sudo yum -y update
 
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+# curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
 
-. ~/.nvm/nvm.sh
+# . ~/.nvm/nvm.sh
 
-# Install node version
-nvm install node
-# nvm use 16
-node --version
+# # Install node version
+# nvm install node
+# # nvm use 16
+# node --version
 
 
 # sudo yum install postgresql12 postgresql12-server
@@ -62,10 +62,6 @@ node --version
 # sudo -u postgres psql
 # sudo -u postgres psql
 # sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'rolwyn12345';"
-# sudo -u postgres psql -c "CREATE DATABASE testdb;"
-# sudo -u postgres psql -c "DROP TABLE IF EXISTS users;"
-
-# npm
 
 
 sudo amazon-linux-extras install epel
@@ -87,7 +83,7 @@ sudo systemctl enable --now postgresql-13
 systemctl status postgresql-13
 
 # chmod -R 755 ./webservice
-sudo chmod -R 755 /home/ec2-user
+# sudo chmod -R 755 /home/ec2-user
 
 sudo -u postgres bash -c "psql -c \"ALTER USER postgres with PASSWORD 'rolwyn12345';\""
 
@@ -96,13 +92,13 @@ sudo yum install -y gcc gcc-c++ make openssl-devel git
 sudo yum install -y nodejs
 # cd ~
 # sudo rm -f webservice/package-lock.json
-npm install pm2@latest -g
-pm2 update
-sudo chmod -R 755 ./webservice
-# cd ./webservice
-pm2 start ./webservice/server.js --cron
-pm2 startup
-pm2 save
+sudo npm install pm2@latest -g
+sudo pm2 update
+# sudo chmod -R 755 ./webservice
+cd ~/webservice
+sudo pm2 start server.js
+sudo pm2 startup
+sudo pm2 save
 
 # pm2 startup systemd
 # pm2 save
