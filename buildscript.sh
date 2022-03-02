@@ -83,10 +83,10 @@ sudo -u postgres bash -c "psql -c \"ALTER USER postgres with PASSWORD 'rolwyn123
 npm install pm2 -g
 sudo chmod -R 777 ./webservice
 cd ./webservice
-sudo pm2 start server.js
-sudo pm2 startup systemd
-sudo pm2 save
-sudo pm2 list
+pm2 start server.js
+pm2 startup systemd
+pm2 save
+pm2 list
 
 
 # sudo npm install
