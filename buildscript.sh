@@ -45,11 +45,9 @@ systemctl status postgresql-12
 # sudo -u postgres psql testdb
 # psql -c "ALTER USER postgres PASSWORD 'rolwyn12345';"
 
-
-
-sudo chmod 777 /home/ec2-user
+# sudo chmod 777 /home/ec2-user
 # sudo -u postgres psql
-sudo -u postgres bash -c "psql -c \"ALTER USER postgres with PASSWORD 'rolwyn12345';\""
+# sudo -u postgres bash -c "psql -c \"ALTER USER postgres with PASSWORD 'rolwyn12345';\""
 # sudo -u postgres bash -c "psql -c \"CREATE DATABASE testdb;\""
 # sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'rolwyn12345';"
 # sudo -u postgres psql -c "CREATE DATABASE testdb;"
@@ -67,16 +65,28 @@ sudo -u postgres bash -c "psql -c \"ALTER USER postgres with PASSWORD 'rolwyn123
 # sudo -u postgres psql -c "CREATE DATABASE testdb;"
 # sudo -u postgres psql -c "DROP TABLE IF EXISTS users;"
 
-# sudo -u postgres psql testdb
-
-# sudo -u postgres psql -c 'show config_file'
-
-# npm run start
-# ls /etc
-# echo "etc fdsfsdf"
-# ls /etc/postgresql/12/main/
-
 # npm
+
+
+sudo amazon-linux-extras install epel
+
+sudo tee /etc/yum.repos.d/pgdg.repo<<EOF
+[pgdg13]
+name=PostgreSQL 13 for RHEL/CentOS 7 - x86_64
+baseurl=http://download.postgresql.org/pub/repos/yum/13/redhat/rhel-7-x86_64
+enabled=1
+gpgcheck=0
+EOF
+
+sudo yum install postgresql13 postgresql13-server -y
+
+sudo /usr/pgsql-13/bin/postgresql-13-setup initdb
+
+sudo systemctl enable --now postgresql-13
+
+systemctl status postgresql-13
+
+sudo -u postgres bash -c "psql -c \"ALTER USER postgres with PASSWORD 'rolwyn12345';\""
 
 # cd ~
 # sudo rm -f webservice/package-lock.json
@@ -84,10 +94,10 @@ npm install pm2 -g
 sudo chmod -R 777 ./webservice
 cd ./webservice
 npm install
-pm2 start server.js
-pm2 startup systemd
-pm2 save
-pm2 list
+# pm2 start server.js
+# pm2 startup systemd
+# pm2 save
+# pm2 list
 
 # sudo npm install
 # sudo npm run start
