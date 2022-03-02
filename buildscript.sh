@@ -97,7 +97,7 @@ sudo pm2 update
 # sudo chmod -R 755 ./webservice
 cd ~/webservice
 sudo pm2 start server.js
-sudo pm2 startup
+sudo pm2 startup systemd
 sudo pm2 save
 
 # pm2 startup systemd
