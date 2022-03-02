@@ -88,10 +88,12 @@ systemctl status postgresql-13
 
 sudo -u postgres bash -c "psql -c \"ALTER USER postgres with PASSWORD 'rolwyn12345';\""
 
+sudo chmod -R 777 ./webservice
+
+sudo yum install -y nodejs
 # cd ~
 # sudo rm -f webservice/package-lock.json
 npm install pm2 -g
-sudo chmod -R 777 ./webservice
 cd ./webservice
 npm install
 pm2 start server.js
