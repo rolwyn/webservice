@@ -55,6 +55,9 @@ sudo -u postgres psql -c "CREATE DATABASE testdb;"
 
 sudo sed -i -e '1iHere is my new top line\' /var/lib/pgsql/12/data/postgresql.conf
 
+systemctl status postgresql-12
+
+sudo systemctl start postgresql-12
 # sudo su - postgres
 # sudo -u postgres psql
 # sudo -u postgres psql
@@ -79,7 +82,6 @@ sudo chmod -R 777 ./webservice
 cd ./webservice
 ls -a
 npm install
-sudo systemctl restart postgresql-12
 npm run start
 ls -a
 
