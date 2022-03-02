@@ -49,9 +49,9 @@ systemctl status postgresql-12
 
 sudo chmod 777 /home/ec2-user
 sudo systemctl restart postgresql-12
-sudo -u ec2-user psql
-sudo -u ec2-user psql -c "ALTER USER postgres WITH PASSWORD 'rolwyn12345';"
-sudo -u ec2-user psql -c "CREATE DATABASE testdb;"
+sudo -u postgres psql
+sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'rolwyn12345';"
+sudo -u postgres psql -c "CREATE DATABASE testdb;"
 
 # sudo su - postgres
 # sudo -u postgres psql
