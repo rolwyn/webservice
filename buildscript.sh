@@ -98,7 +98,7 @@ sudo yum install -y nodejs
 # sudo rm -f webservice/package-lock.json
 npm install pm2@latest -g
 pm2 update
-chmod -R 755 ./webservice
+sudo chmod -R 755 ./webservice
 # cd ./webservice
 sudo pm2 start ./webservice/server.js --cron
 sudo pm2 startup
