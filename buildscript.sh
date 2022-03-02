@@ -86,9 +86,12 @@ sudo systemctl enable --now postgresql-13
 
 systemctl status postgresql-13
 
+# chmod -R 755 ./webservice
+chmod 755 /home/ec2-user
+
 sudo -u postgres bash -c "psql -c \"ALTER USER postgres with PASSWORD 'rolwyn12345';\""
 
-sudo chmod -R 777 ./webservice
+sudo yum install -y gcc gcc-c++ make openssl-devel git
 
 sudo yum install -y nodejs
 # cd ~
@@ -97,9 +100,9 @@ npm install pm2 -g
 cd ./webservice
 npm install
 pm2 start server.js
-pm2 startup systemd
-pm2 save
-pm2 list
+# pm2 startup systemd
+# pm2 save
+# pm2 list
 
 # sudo npm install
 # sudo npm run start
