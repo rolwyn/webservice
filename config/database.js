@@ -2,9 +2,10 @@ const Sequelize = require('sequelize')
 
 //connect to postgres server
 const db = new Sequelize('testdb', 'postgres', 'rolwyn12345', {
-    host:  '127.0.0.1' || 'localhost',
+    host:  'localhost',
     dialect: 'postgres',
     operatorsAlias: false,
+    port: 3000,
 
     pool: {
         max: 5,
