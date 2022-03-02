@@ -1,0 +1,53 @@
+name: Web App
+on: 
+  push:
+    branches: [main]
+jobs:
+  packer_validate:
+    runs-on: ubuntu-latest
+    name: Validate Template
+    steps:
+      - name: Step 1 - Checkout code
+        uses: actions/checkout@v2
+
+      - name: Step 2 - Packer Init
+        uses: hashicorp/packer-github-actions@master
+        with:
+          command: init
+          target: application-ami.pkr.hcl
+
+      - name: Step 3 - Packer Validate
+        uses: hashicorp/packer-github-actions@master
+        with:
+          command: validate
+          arguments: -var-file=variables.pkrvars.hcl -syntax-only
+          target: application-ami.pkr.hcl
+  packer_build:
+    needs: packer_validate
+    runs-on: ubuntu-latest
+    name: Build AMI
+    steps:
+      - name: Step 1 - Checkout code
+        uses: actions/checkout@v2
+
+      - name: install npm modules
+        run: npm ci
+
+      - name: zip files
+        run: |
+          zip -r webservice.zip ./
+          
+      - name: Step 2 - Packer Init
+        uses: hashicorp/packer-github-actions@master
+        with:
+          command: init
+          target: application-ami.pkr.hcl
+      
+      - name: Step 3 - Build Artifact
+        uses: hashicorp/packer-github-actions@master
+        with:
+          command: build
+          arguments: -var=AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} -var=AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} -var-file=variables.pkrvars.hcl -on-error=abort
+          target: application-ami.pkr.hcl
+        env:
+          PACKER_LOG: 1

@@ -1,22 +1,24 @@
-name: Test APIs
+name: Unit Test
 on: 
   pull_request:
     branches: [main]
-  push:
-    branches: [assignment1, assignment2]
 jobs:
-  check-api:
-    name: Check all apis
+  validate-template:
     runs-on: ubuntu-latest
-
+    name: Validate Template
     steps:
-      - name: Checkout code
+      - name: Step 1 - Checkout code
         uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '16.13.2'
 
-      - name: Install dependencies
-        run: npm ci
-      - name: Run Api Tests
-        run:  npm run test
+      - name: Step 2 - Packer Init
+        uses: hashicorp/packer-github-actions@master
+        with:
+          command: init
+          target: application-ami.pkr.hcl
+
+      - name: Step 3 - Packer Validate
+        uses: hashicorp/packer-github-actions@master
+        with:
+          command: validate
+          arguments: -var-file=variables.pkrvars.hcl -syntax-only
+          target: application-ami.pkr.hcl
