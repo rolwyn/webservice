@@ -16,29 +16,29 @@ nvm use 16
 node --version
 
 
-sudo yum install postgresql12 postgresql12-server
+# sudo yum install postgresql12 postgresql12-server
 
-sudo amazon-linux-extras | grep postgre
+# sudo amazon-linux-extras | grep postgre
 
-# get the required version
-sudo tee /etc/yum.repos.d/pgdg.repo<<EOF
-[pgdg12]
-name=PostgreSQL 12 for RHEL/CentOS 7 - x86_64
-baseurl=https://download.postgresql.org/pub/repos/yum/12/redhat/rhel-7-x86_64
-enabled=1
-gpgcheck=0
-EOF
+# # get the required version
+# sudo tee /etc/yum.repos.d/pgdg.repo<<EOF
+# [pgdg12]
+# name=PostgreSQL 12 for RHEL/CentOS 7 - x86_64
+# baseurl=https://download.postgresql.org/pub/repos/yum/12/redhat/rhel-7-x86_64
+# enabled=1
+# gpgcheck=0
+# EOF
 
-# install version 12
-sudo yum install -y postgresql12 postgresql12-server
+# # install version 12
+# sudo yum install -y postgresql12 postgresql12-server
 
-# init db
-sudo /usr/pgsql-12/bin/postgresql-12-setup initdb
+# # init db
+# sudo /usr/pgsql-12/bin/postgresql-12-setup initdb
 
-# enables and start service with --now
-sudo systemctl enable --now postgresql-12
+# # enables and start service with --now
+# sudo systemctl enable --now postgresql-12
 
-systemctl status postgresql-12
+# systemctl status postgresql-12
 
 # cd ~/webservice
 
