@@ -52,9 +52,6 @@ source "amazon-ebs" "ec2-user" {
 build {
   sources = ["source.amazon-ebs.ec2-user"]
   // wait till complete boot
-  provisioner "shell" {
-    inline = ["sleep 10"]
-  }
   provisioner "file" {
     source = "webservice.zip"
     destination = "~/"
