@@ -30,6 +30,9 @@ jobs:
       - name: Step 1 - Checkout code
         uses: actions/checkout@v2
 
+      - name: install npm modules
+        run: npm ci
+
       - name: zip files
         run: |
           zip -r webservice.zip ./
