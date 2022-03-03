@@ -39,3 +39,7 @@ Packer init command to install plugins
 Packer build command
 
 ```packer build -var-file="variables.pkrvars.hcl" application-ami.pkr.hcl```
+
+Delete AMI and Snapshot
+1. aws ec2 deregister-image --image-id ```<YOUR-IMAGE-ID>```
+2. aws ec2 delete-snapshot --snapshot-id ```<YOUR-SNAPSHOT-ID>```

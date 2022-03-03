@@ -28,10 +28,10 @@ systemctl status postgresql-13
 sudo chmod 755 /home/ec2-user
 
 # change password for postgres user
-sudo -u postgres bash -c "psql -c \"ALTER USER postgres with PASSWORD 'rolwyn12345';\""
+sudo -u postgres psql -c "ALTER USER postgres with PASSWORD 'rolwyn12345';"
 
 # install nodejs
-curl --silent --location https://rpm.nodesource.com/setup_17.x | sudo bash -
+curl --silent --location https://rpm.nodesource.com/setup_16.x | sudo bash -
 sudo yum install -y nodejs
 
 # install pm2 process management

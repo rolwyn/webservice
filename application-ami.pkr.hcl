@@ -71,6 +71,4 @@ build {
       "./buildscript.sh",
     ]
   }
-
 }
-
