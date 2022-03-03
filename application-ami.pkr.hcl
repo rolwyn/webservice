@@ -46,13 +46,13 @@ source "amazon-ebs" "ec2-user" {
   instance_type = "t2.micro"
   source_ami    = "${var.source_ami}"
   ssh_username  = "${var.ssh_username}"
-  ami_name      = "${var.ami_name}"
+  ami_names      = "${var.ami_name}"
   ami_description = "AMI - Spring 2022"
   ami_users=[605680160689]
 }
 
 // build with all the provisioners
-build {
+builsd {
   sources = ["source.amazon-ebs.ec2-user"]
   // wait till complete boot
   // provisioner "shell" {
