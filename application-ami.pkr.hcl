@@ -7,6 +7,7 @@ packer {
   }
 }
 
+// define variables
 variable "source_ami" {
   type    = string
   default = ""
@@ -37,6 +38,7 @@ variable "AWS_SECRET_ACCESS_KEY" {
   default = ""
 }
 
+// source - amazon-ebs, shared with demo account
 source "amazon-ebs" "ec2-user" {
   access_key    = "${var.AWS_ACCESS_KEY_ID}"
   secret_key    = "${var.AWS_SECRET_ACCESS_KEY}"
@@ -49,6 +51,7 @@ source "amazon-ebs" "ec2-user" {
   ami_users=[605680160689]
 }
 
+// build with all the provisioners
 build {
   sources = ["source.amazon-ebs.ec2-user"]
   // wait till complete boot
