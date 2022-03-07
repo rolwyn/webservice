@@ -54,5 +54,15 @@ router.route('/self')
       controller.updateUser
    )
 
+router.route('/self/pic')
+   .put(
+      basicAuth,
+      controller.uploadImage
+   )
+   // .get(
+   //    basicAuth,
+   //    controller.authenticate
+   // )
+
 // export default router
 module.exports = router
