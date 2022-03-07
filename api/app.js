@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const routes = require('./routes/index')
 const cors = require('cors')
 const db = require('../config/database')
+// require('dotenv').config()
 
 // creates an express server
 const app = express();

@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 
 //connect to postgres server
-const db = new Sequelize('postgres', 'postgres', 'rolwyn12345', {
+const db = new Sequelize('testdb', 'postgres', 'rolwyn12345', {
     host:  'localhost' || '127.0.0.1',
     dialect: 'postgres',
     operatorsAlias: false,
