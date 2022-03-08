@@ -1,3 +1,12 @@
-const awssdk = require("aws-sdk");
-const multer = require("multer");
-const multerS3 = require("multer-s3");
+const UserPic = require('../models/UserImage')
+
+const saveUserImg = (imgData) => {
+    return UserPic.create(imgData)
+}
+
+const getExistingFile = (userid) => {
+    return UserPic.findOne({ where: { user_id: userid } })
+}
+
+module.exports = {saveUserImg, getExistingFile}
+

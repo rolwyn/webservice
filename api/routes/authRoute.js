@@ -5,8 +5,10 @@
 
 const express = require('express')
 const controller = require('../controllers/authController.js')
+const fileController = require('../controllers/fileController.js')
 const User = require('../models/User')
 const basicAuth = require('../middleware/basicAuth')
+// const { uploadFileToBucket } = require('../services/fileService')
 
 const { body } = require('express-validator');
 const app = require('../app');
@@ -55,14 +57,20 @@ router.route('/self')
    )
 
 router.route('/self/pic')
-   .put(
+   .post(
       basicAuth,
-      controller.uploadImage
-   )
-   // .get(
-   //    basicAuth,
-   //    controller.authenticate
-   // )
+      fileController.fileUpload
+      // uploadFileToBucket.single("imagefile"),
+      // function (req, res) {
+         //    console.log(req.file)
+         //    res.status(200);
+         //    res.json();
+         // }
+         )
+      .get(
+         basicAuth,
+         fileController.getFile
+      )
 
 // export default router
 module.exports = router
