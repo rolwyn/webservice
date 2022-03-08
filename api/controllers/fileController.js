@@ -51,77 +51,93 @@ const fileUpload = async (req, res) => {
         // }
         
         // the username and password from Basic Auth
-        const requsername = req.credentials.name
-        const reqpassword = req.credentials.pass
+    const requsername = req.credentials.name
+    const reqpassword = req.credentials.pass
 
-        // pass header username(email) to check if user exists
-        let existingUser = await checkExistingUser(requsername.toLowerCase())
-        if (existingUser == null) return setErrorResponse(`User not found`, res, 401)
+    // pass header username(email) to check if user exists
+    let existingUser = await checkExistingUser(requsername.toLowerCase())
+    if (existingUser == null) return setErrorResponse(`User not found`, res, 401)
 
-        let isPasswordMatch = bcrypt.compareSync(
-            reqpassword,
-            existingUser.password
-        );
- 
-        // if wrong password throw 401
-        if (!isPasswordMatch) return setErrorResponse(`Credentials do not match`, res, 401)
+    let isPasswordMatch = bcrypt.compareSync(
+        reqpassword,
+        existingUser.password
+    );
+
+    // if wrong password throw 401
+    if (!isPasswordMatch) return setErrorResponse(`Credentials do not match`, res, 401)
+    
+    console.log("sssss")
+
+    const fileTypes = [
+        'image/png',
+        'image/jpeg',
+        'image/jpg'
+    ]
+    
+    let uploadFileToBucket = multer({
+        storage: multerS3({
+            acl: "public-read",
+            s3: s3,
+            bucket: process.env.AWS_BUCKET_NAME,
+            metadata: function (req, file, cb) {
+                cb(null, { fieldName: file.fieldname });
+            },
+            key: function (req, file, cb) {
+                path = `${process.env.AWS_BUCKET_NAME}/${existingUser.id}/${file.originalname}`
+                cb(null, path);
+            },
+        }),
+        fileFilter: (req, file, cb) => {
+            if (!fileTypes.includes(file.mimetype))
+                return cb(new Error('File type is not valid'))
+            cb(null, true)
+        }
+    })
+    .single("imagefile")
+    
+    await uploadFileToBucket(req, res, async err => {
+        if (err) return setErrorResponse(`Only JPEG, JPG and PNG format accepted`, res, 400)
+
+        let getUserImg = await getExistingFile(existingUser.id)
+        if (getUserImg) {
+            let deleteFileIfExists = await deleteExistingFile(existingUser.id)
+            console.log('-----deleting existing file------------//////////')
+            console.log(deleteFileIfExists)
         
-        console.log("sssss")
-
-        const fileTypes = [
-            'image/png',
-            'image/jpeg',
-            'image/jpg'
-        ]
-        
-        let uploadFileToBucket = multer({
-            storage: multerS3({
-                acl: "public-read",
-                s3: s3,
-                bucket: process.env.AWS_BUCKET_NAME,
-                metadata: function (req, file, cb) {
-                    cb(null, { fieldName: file.fieldname });
-                },
-                key: function (req, file, cb) {
-                    path = `${process.env.AWS_BUCKET_NAME}/${existingUser.id}/${file.originalname}`
-                    cb(null, path);
-                },
-            }),
-            fileFilter: (req, file, cb) => {
-                if (!fileTypes.includes(file.mimetype))
-                    return cb(new Error('File type is not valid'))
-                cb(null, true)
-            }
-        })
-        .single("imagefile")
-        
-        await uploadFileToBucket(req, res, async err => {
-            if (err) return setErrorResponse(`Only JPEG, JPG and PNG format accepted`, res, 400)
-
-            console.log(req.file)
-            if (req.file) {
-                const imgData = {
-                    file_name: req.file.originalname,
-                    user_id: existingUser.id,
-                    url: req.file.key
+            s3.deleteObject({ Bucket: process.env.AWS_BUCKET_NAME, Key: getUserImg.url }, async (err, data) => {
+                if (err) console.error(`Error in deleting from bucket - ${err}`);
+                console.log('deleted data ---->')
+                console.log(data)
+                if (Object.keys(data).length === 0) {
+                    console.log('deleting from bucket before adding a new one --/////////')
                 }
-                // console.log(imgData)
-                let userImg;
-                let userImageData = await saveUserImg(imgData)
-                    .then(function(data) {
-                        // console.log(data)
-                        userImg = data.toJSON()
-                        setSuccessResponse('Profile pic added/updated', res, 201)
-                    })
-                    .catch(error => {
-                        return setErrorResponse(`Error`, res, 400)
-                        // this console warn never gets logged out
-                    });
-                console.log(userImg)
-            } else {
-                return setErrorResponse(`File is not selected`, res, 400)
+            });
+        }
+
+        console.log(req.file)
+        if (req.file) {
+            const imgData = {
+                file_name: req.file.originalname,
+                user_id: existingUser.id,
+                url: req.file.key
             }
-        })
+            // console.log(imgData)
+            let userImg;
+            let userImageData = await saveUserImg(imgData)
+                .then(function(data) {
+                    // console.log(data)
+                    userImg = data.toJSON()
+                    setSuccessResponse('Profile pic added/updated', res, 201)
+                })
+                .catch(error => {
+                    return setErrorResponse(`Error`, res, 400)
+                    // this console warn never gets logged out
+                });
+            console.log(userImg)
+        } else {
+            return setErrorResponse(`File is not selected`, res, 400)
+        }
+    })
         // console.log(uploadedFile);
         
         
