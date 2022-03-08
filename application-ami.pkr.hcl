@@ -40,7 +40,7 @@ variable "AWS_SECRET_ACCESS_KEY" {
 
 // source - amazon-ebs, shared with demo account
 source "amazon-ebs" "ec2-user" {
-  asccess_key    = "${var.AWS_ACCESS_KEY_ID}"
+  access_key    = "${var.AWS_ACCESS_KEY_ID}"
   secret_key    = "${var.AWS_SECRET_ACCESS_KEY}"
   region        = "${var.ami_region}"
   instance_type = "t2.micro"
@@ -52,7 +52,7 @@ source "amazon-ebs" "ec2-user" {
 }
 
 // build with all the provisioners
-buisld {
+build {
   sources = ["source.amazon-ebs.ec2-user"]
   // wait till complete boot
   // provisioner "shell" {
