@@ -1,6 +1,6 @@
 const { response } = require('express')
 const { signupuser, checkExistingUser, modifyUser } = require('../services/authService')
-const { saveUserImg, getExistingFile } = require('../services/fileService')
+const { saveUserImg, getExistingFile, deleteExistingFile } = require('../services/fileService')
 const User = require('../models/User')
 const { validationResult } = require('express-validator')
 const bcrypt = require('bcryptjs')
@@ -15,13 +15,6 @@ const s3 = new awssdk.S3({
     accessKeyId: process.env.ACCESS_KEY_ID_S3,
     region: process.env.AWS_BUCKET_REGION
 })
-
-// set aws config
-// awssdk.config.update({
-//   secretAccessKey: process.env.ACCESS_SECRET_S3,
-//   accessKeyId: process.env.ACCESS_KEY_ID_S3,
-//   region: process.env.AWS_BUCKET_REGION
-// })
 
 /**
  * Set a success response
@@ -44,7 +37,9 @@ const setErrorResponse = (message, res, errCode=500) => {
     res.status(errCode);
     if (errCode == 500)
         res.json();
-    res.json({ error: message });
+    else if (errCode == 404)
+        res.json();
+    else res.json({ error: message });
 }
 
 const fileUpload = async (req, res) => {
@@ -79,7 +74,7 @@ const fileUpload = async (req, res) => {
             'image/jpg'
         ]
         
-        const uploadFileToBucket = multer({
+        let uploadFileToBucket = multer({
             storage: multerS3({
                 acl: "public-read",
                 s3: s3,
@@ -154,6 +149,8 @@ const getFile = async (req, res) => {
         if (!isPasswordMatch) return setErrorResponse(`Credentials do not match`, res, 401)
 
         let getUserImg = await getExistingFile(existingUser.id)
+        if (getUserImg == null) return setErrorResponse('', res, 404)
+
         const userImgData = getUserImg.toJSON()
         let {update_date, ...newUserImgData} = {...userImgData}
 
@@ -164,6 +161,42 @@ const getFile = async (req, res) => {
 }
 
 
+const deleteFile = async (req, res) => {
+    try {
+        // the username and password from Basic Auth
+        const requsername = req.credentials.name
+        const reqpassword = req.credentials.pass
+
+        // pass header username(email) to check if user exists
+        const existingUser = await checkExistingUser(requsername.toLowerCase())
+        if (existingUser == null) return setErrorResponse(`User not found`, res, 401)
+
+        let isPasswordMatch = bcrypt.compareSync(
+            reqpassword,
+            existingUser.password
+        );
+ 
+        // if wrong password throw 401
+        if (!isPasswordMatch) return setErrorResponse(`Credentials do not match`, res, 401)
+
+        let getUserImg = await getExistingFile(existingUser.id)
+        if (getUserImg == null) return setErrorResponse('', res, 404)
+
+        s3.deleteObject({ Bucket: process.env.AWS_BUCKET_NAME, Key: getUserImg.url }, async (err, data) => {
+            if (err) console.error(`Error in deleting from bucket - ${err}`);
+            console.log('deleted data ---->')
+            console.log(data)
+            if (Object.keys(data).length === 0) {
+                const deleteFile = await deleteExistingFile(existingUser.id)
+                setSuccessResponse('', res, 204)
+            }
+        });
+
+    } catch (e) {
+        setErrorResponse(e.message, res)
+    }    
+}
+
 module.exports = {
-    fileUpload, getFile
+    fileUpload, getFile, deleteFile
 }

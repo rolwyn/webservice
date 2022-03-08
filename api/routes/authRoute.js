@@ -71,6 +71,10 @@ router.route('/self/pic')
          basicAuth,
          fileController.getFile
       )
+      .delete(
+         basicAuth,
+         fileController.deleteFile
+      )
 
 // export default router
 module.exports = router
