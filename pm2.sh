@@ -8,4 +8,4 @@ export DB_NAME_NEW=${DB_NAME}
 export DB_PASSWORD_NEW=${DB_PASSWORD}
 export DB_USER_NAME_NEW=${DB_USER_NAME}
 
-sudo npm start /home/ec2-user/webservice/server.js
+sudo npm run start /home/ec2-user/webservice/server.js
