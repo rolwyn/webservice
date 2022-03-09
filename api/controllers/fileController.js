@@ -13,7 +13,7 @@ const multerS3 = require("multer-s3")
 const s3 = new awssdk.S3({
     // secretAccessKey: process.env.ACCESS_SECRET_S3,
     // accessKeyId: process.env.ACCESS_KEY_ID_S3,
-    region: process.env.AWS_BUCKET_REGION_NEW
+    region: process.env.AWS_BUCKET_REGION
 })
 
 /**
@@ -78,12 +78,12 @@ const fileUpload = async (req, res) => {
         storage: multerS3({
             acl: "private",
             s3: s3,
-            bucket: process.env.AWS_BUCKET_NAME_NEW,
+            bucket: process.env.AWS_BUCKET_NAME,
             metadata: function (req, file, cb) {
                 cb(null, { fieldName: file.fieldname });
             },
             key: function (req, file, cb) {
-                path = `${process.env.AWS_BUCKET_NAME_NEW}/${existingUser.id}/${file.originalname}`
+                path = `${process.env.AWS_BUCKET_NAME}/${existingUser.id}/${file.originalname}`
                 cb(null, path);
             },
         }),
@@ -104,7 +104,7 @@ const fileUpload = async (req, res) => {
             console.log('-----deleting existing file------------//////////')
             console.log(deleteFileIfExists)
         
-            s3.deleteObject({ Bucket: process.env.AWS_BUCKET_NAME_NEW, Key: getUserImg.url }, async (err, data) => {
+            s3.deleteObject({ Bucket: process.env.AWS_BUCKET_NAME, Key: getUserImg.url }, async (err, data) => {
                 if (err) console.error(`Error in deleting from bucket - ${err}`);
                 console.log('deleted data ---->')
                 console.log(data)
@@ -198,7 +198,7 @@ const deleteFile = async (req, res) => {
         let getUserImg = await getExistingFile(existingUser.id)
         if (getUserImg == null) return setErrorResponse('', res, 404)
 
-        s3.deleteObject({ Bucket: process.env.AWS_BUCKET_NAME_NEW, Key: getUserImg.url }, async (err, data) => {
+        s3.deleteObject({ Bucket: process.env.AWS_BUCKET_NAME, Key: getUserImg.url }, async (err, data) => {
             if (err) console.error(`Error in deleting from bucket - ${err}`);
             console.log('deleted data ---->')
             console.log(data)
