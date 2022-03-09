@@ -37,6 +37,7 @@ sudo yum install -y nodejs
 # install pm2 process management
 sudo npm install pm2@latest -g
 cd ~/webservice
-sudo pm2 start server.js
+# sudo pm2 start /etc/profile.d/webenv.sh
+sudo pm2 start pm2.json
 sudo pm2 startup systemd
 sudo pm2 save

@@ -1,0 +1,12 @@
+{
+    "apps": [
+      {
+        "name": "webserver",
+        "script": "./server.js"
+      },
+      {
+        "name": "futurestudio-api",
+        "script": "/etc/profile.d/webenv.sh"
+      }
+    ]
+  }
