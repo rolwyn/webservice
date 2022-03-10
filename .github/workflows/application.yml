@@ -1,7 +1,7 @@
 name: Web App
 on: 
   push:
-    branches: [assignment5]
+    branches: [main]
 jobs:
   packer_validate:
     runs-on: ubuntu-latest

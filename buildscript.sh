@@ -17,8 +17,8 @@ curl --silent --location https://rpm.nodesource.com/setup_14.x | sudo bash -
 sudo yum install -y nodejs
 
 # install pm2 process management
-sudo npm install pm2@latest -g
 cd ~/webservice
-sudo pm2 start server.js
-sudo pm2 startup systemd
-sudo pm2 save
+sudo npm install pm2@latest -g
+pm2 start server.js
+pm2 startup systemd
+pm2 save
