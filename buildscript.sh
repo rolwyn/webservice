@@ -25,28 +25,22 @@ sudo yum -y update
 # systemctl status postgresql-13
 
 # giving permission because of permission errors
+sudo amazon-linux-extras install postgresql10
 sudo chmod 755 /home/ec2-user
 
 # change password for postgres user
 # sudo -u postgres psql -c "ALTER USER postgres with PASSWORD 'rolwyn12345';"
 
 # install nodejs
-curl --silent --location https://rpm.nodesource.com/setup_16.x | sudo bash -
+curl --silent --location https://rpm.nodesource.com/setup_14.x | sudo bash -
 sudo yum install -y nodejs
 
+sudo npm -v
+
 # install pm2 process management
-sudo npm install pm2@latest -g
 cd ~/webservice
-# sleep 10
-# sudo pm2 start server.js
-# sudo pm2 startup systemd
-# sudo pm2 save
-
-# sudo pm2 delete all
-# sudo pm2 start server.js
-# sudo pm2 save
-# sudo pm2 startup
-
+sudo npm install pm2@latest -g
+pm2 delete all
 pm2 start server.js
 pm2 startup systemd
 pm2 save

@@ -10,11 +10,7 @@ const multer = require("multer")
 const multerS3 = require("multer-s3")
 // require('dotenv').config()
 
-const s3 = new awssdk.S3({
-    // secretAccessKey: process.env.ACCESS_SECRET_S3,
-    // accessKeyId: process.env.ACCESS_KEY_ID_S3,
-    region: process.env.AWS_BUCKET_REGION
-})
+const s3 = new awssdk.S3({ apiVersion: "2006-03-01" })
 
 /**
  * Set a success response
