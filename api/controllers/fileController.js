@@ -8,9 +8,9 @@ const Sequelize = require('sequelize')
 const awssdk = require("aws-sdk")
 const multer = require("multer")
 const multerS3 = require("multer-s3")
-// require('dotenv').config()
+require('dotenv').config()
 
-const s3 = new awssdk.S3({ apiVersion: "2006-03-01" })
+const s3 = new awssdk.S3({apiVersion: "2006-03-01"})
 
 /**
  * Set a success response
@@ -39,14 +39,7 @@ const setErrorResponse = (message, res, errCode=500) => {
 }
 
 const fileUpload = async (req, res) => {
-    // try {
-        // if any validation fails
-        // const validationErrors = validationResult(req);
-        // if (!validationErrors.isEmpty()) {
-        //     return setErrorResponse(validationErrors.array(), res, 400)
-        // }
-        
-        // the username and password from Basic Auth
+
     const requsername = req.credentials.name
     const reqpassword = req.credentials.pass
 
@@ -61,8 +54,20 @@ const fileUpload = async (req, res) => {
 
     // if wrong password throw 401
     if (!isPasswordMatch) return setErrorResponse(`Credentials do not match`, res, 401)
-    
-    console.log("sssss")
+
+    let getUserImg = await getExistingFile(existingUser.id)
+        .then(function(imgdata) {
+            if (imgdata) {
+                s3.deleteObject({ Bucket: process.env.AWS_BUCKET_NAME, Key: imgdata.url }, (err, data) => {
+                    if (err) {
+                        console.error(`Error in deleting from bucket - ${err}`);
+                        setErrorResponse(`${err}`, res)
+                    }  else {
+                        imgdata.destroy()
+                    }
+                });
+            }
+        })
 
     const fileTypes = [
         'image/png',
@@ -94,52 +99,25 @@ const fileUpload = async (req, res) => {
     await uploadFileToBucket(req, res, async err => {
         if (err) return setErrorResponse(`Only JPEG, JPG and PNG format accepted`, res, 400)
 
-        let getUserImg = await getExistingFile(existingUser.id)
-        if (getUserImg) {
-            let deleteFileIfExists = await deleteExistingFile(existingUser.id)
-            console.log('-----deleting existing file------------//////////')
-            console.log(deleteFileIfExists)
-        
-            s3.deleteObject({ Bucket: process.env.AWS_BUCKET_NAME, Key: getUserImg.url }, async (err, data) => {
-                if (err) console.error(`Error in deleting from bucket - ${err}`);
-                console.log('deleted data ---->')
-                console.log(data)
-                if (Object.keys(data).length === 0) {
-                    console.log('deleting from bucket before adding a new one --/////////')
-                }
-            });
-        }
-
-        console.log(req.file)
         if (req.file) {
             const imgData = {
                 file_name: req.file.originalname,
                 user_id: existingUser.id,
                 url: req.file.key
             }
-            // console.log(imgData)
             let userImg;
             let userImageData = await saveUserImg(imgData)
                 .then(function(data) {
-                    // console.log(data)
                     userImg = data.toJSON()
                     setSuccessResponse('Profile pic added/updated', res, 201)
                 })
                 .catch(error => {
                     return setErrorResponse(`Error`, res, 400)
-                    // this console warn never gets logged out
                 });
-            console.log(userImg)
         } else {
             return setErrorResponse(`File is not selected`, res, 400)
         }
     })
-        // console.log(uploadedFile);
-        
-        
-    // } catch (e) {
-    //     setErrorResponse(e.message, res)
-    // }
 }
 
 const getFile = async (req, res) => {
@@ -206,7 +184,7 @@ const deleteFile = async (req, res) => {
 
     } catch (e) {
         setErrorResponse(e.message, res)
-    }    
+    }
 }
 
 module.exports = {

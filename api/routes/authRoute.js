@@ -60,13 +60,7 @@ router.route('/self/pic')
    .post(
       basicAuth,
       fileController.fileUpload
-      // uploadFileToBucket.single("imagefile"),
-      // function (req, res) {
-         //    console.log(req.file)
-         //    res.status(200);
-         //    res.json();
-         // }
-         )
+      )
       .get(
          basicAuth,
          fileController.getFile

@@ -9,9 +9,11 @@ const UserPic = db.define('userpics', {
     },
     file_name: {
         type: Sequelize.STRING,
+        allowNull: false
     },
     url: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
     },
     user_id: {
         type: Sequelize.STRING,
