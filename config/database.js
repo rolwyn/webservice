@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize')
-
+require('dotenv').config()
 //connect to postgres server
 
 console.log(`${process.env.DB_NAME}`)
