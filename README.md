@@ -1,4 +1,4 @@
-# Assignment 2
+# Assignment 5
 
 ```Name: Rolwyn Quadras, NUID - 001554737, Email - quadras.r@northeastern.edu```
 
@@ -35,6 +35,8 @@ Packer init command to install plugins
 
 ```packer init application-ami.pkr.hcl```
 
+Packer validate command
+```packer validate -var-file="variables.pkrvars.hcl" application-ami.pkr.hcl```
 
 Packer build command
 

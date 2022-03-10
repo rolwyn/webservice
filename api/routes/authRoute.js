@@ -5,8 +5,10 @@
 
 const express = require('express')
 const controller = require('../controllers/authController.js')
+const fileController = require('../controllers/fileController.js')
 const User = require('../models/User')
 const basicAuth = require('../middleware/basicAuth')
+// const { uploadFileToBucket } = require('../services/fileService')
 
 const { body } = require('express-validator');
 const app = require('../app');
@@ -53,6 +55,20 @@ router.route('/self')
      .withMessage("Password length should be greater than 8 with 1 uppercase and minimum 1 numeric"),
       controller.updateUser
    )
+
+router.route('/self/pic')
+   .post(
+      basicAuth,
+      fileController.fileUpload
+      )
+      .get(
+         basicAuth,
+         fileController.getFile
+      )
+      .delete(
+         basicAuth,
+         fileController.deleteFile
+      )
 
 // export default router
 module.exports = router
