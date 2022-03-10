@@ -41,22 +41,12 @@ cd ~/webservice
 # sudo pm2 start server.js
 # sudo pm2 startup systemd
 # sudo pm2 save
-sudo chmod 777 /lib/systemd/system/
 
-SERVICE=cloud
-# Link the service file into place
-sudo ln -s /home/ec2-user/webservice/auto.service /lib/systemd/system/auto.service
+# sudo pm2 delete all
+# sudo pm2 start server.js
+# sudo pm2 save
+# sudo pm2 startup
 
-# Reload the daemon so it knows about the new file
-sudo systemctl daemon-reload
-
-# Enable our new service
-sudo systemctl enable $SERVICE
-
-# Start the service
-sudo systemctl start $SERVICE
-
-sudo pm2 delete all
-sudo pm2 start server.js
-sudo pm2 save
-sudo pm2 startup
+pm2 start server.js
+pm2 startup systemd
+pm2 save
