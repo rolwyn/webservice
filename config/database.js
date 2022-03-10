@@ -12,7 +12,6 @@ const db = new Sequelize(`${process.env.DB_NAME}`, `${process.env.DB_USER_NAME}`
     port: 5432,
     dialect: 'postgres',
     logging: console.log,
-    ssl: 'Amazon RDS',
     pool: { maxConnections: 5, maxIdleTime: 30 }
 })
 

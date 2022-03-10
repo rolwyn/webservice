@@ -40,7 +40,6 @@ sudo npm -v
 # install pm2 process management
 cd ~/webservice
 sudo npm install pm2@latest -g
-pm2 delete all
 pm2 start server.js
 pm2 startup systemd
 pm2 save
