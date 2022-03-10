@@ -37,6 +37,26 @@ sudo yum install -y nodejs
 # install pm2 process management
 sudo npm install pm2@latest -g
 cd ~/webservice
-sudo pm2 start pm2.sh
-sudo pm2 startup systemd
+# sleep 10
+# sudo pm2 start server.js
+# sudo pm2 startup systemd
+# sudo pm2 save
+sudo chmod 777 /lib/systemd/system/
+
+SERVICE=cloud
+# Link the service file into place
+sudo ln -s /home/ec2-user/webservice/auto.service /lib/systemd/system/auto.service
+
+# Reload the daemon so it knows about the new file
+sudo systemctl daemon-reload
+
+# Enable our new service
+sudo systemctl enable $SERVICE
+
+# Start the service
+sudo systemctl start $SERVICE
+
+sudo pm2 delete all
+sudo pm2 start server.js
 sudo pm2 save
+sudo pm2 startup

@@ -1,0 +1,7 @@
+[Unit]
+Description=cloud
+Documentation=https://example.com
+After=cloud-final.service
+
+[Install]
+WantedBy=cloud-init.target
