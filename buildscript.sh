@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 
-echo "Assignment 4"
+echo "Assignment 5"
 
 # Update packages
 sudo yum -y update
@@ -17,6 +17,7 @@ curl --silent --location https://rpm.nodesource.com/setup_14.x | sudo bash -
 sudo yum install -y nodejs
 
 # install pm2 process management
+sleep 10
 cd ~/webservice
 sudo npm install pm2@latest -g
 # sudo chmod -R 777 /home/ec2-user/.pm2
