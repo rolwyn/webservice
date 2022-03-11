@@ -19,7 +19,7 @@ sudo yum install -y nodejs
 # install pm2 process management
 cd ~/webservice
 sudo npm install pm2@latest -g
-sudo chmod -R 777 /home/ec2-user/.pm2
+# sudo chmod -R 777 /home/ec2-user/.pm2
+sudo pm2 startup systemd --service-name webservice
 sudo pm2 start server.js
-sudo pm2 startup systemd
 sudo pm2 save
