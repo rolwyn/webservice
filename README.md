@@ -38,7 +38,7 @@ Packer init command to install plugins
 Packer validate command
 ```packer validate -var-file="variables.pkrvars.hcl" application-ami.pkr.hcl```
 
-Packer build command
+Packer build command 
 
 ```packer build -var-file="variables.pkrvars.hcl" application-ami.pkr.hcl```
 
