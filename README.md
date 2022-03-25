@@ -45,3 +45,5 @@ Packer build command
 Delete AMI and Snapshot
 1. aws ec2 deregister-image --image-id ```<YOUR-IMAGE-ID>```
 2. aws ec2 delete-snapshot --snapshot-id ```<YOUR-SNAPSHOT-ID>```
+
+Adding CodeDeploy
