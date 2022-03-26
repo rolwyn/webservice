@@ -70,6 +70,7 @@ build {
     ]
   }
   provisioner "shell" {
+    environment_vars = ["CURRENTREGION=${var.ami_region}"]
     scripts = [
       "./buildscript.sh",
     ]
