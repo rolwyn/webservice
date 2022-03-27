@@ -4,7 +4,6 @@ on:
     branches: [assignment7]
 jobs:
   code_deploy:
-    needs: packer_validate
     runs-on: ubuntu-latest
     name: Run CodeDeploy
     steps:
