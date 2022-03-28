@@ -1,7 +1,7 @@
 name: Deploy Web App
 on: 
   push:
-    branches: [assignment7]
+    branches: [main]
 jobs:
   code_deploy:
     runs-on: ubuntu-latest
