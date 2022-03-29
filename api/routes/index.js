@@ -5,7 +5,7 @@ const authRouter = require('./authRoute')
  * @param {app} the express app 
  */
 module.exports = function(app) {
-    app.get('/heath', (req, res) => {
+    app.get('/healthz', (req, res) => {
         res.json();
         // // res.sendStatus(200);
     });
