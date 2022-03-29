@@ -6,7 +6,7 @@ env:
 
 on: 
   push:
-    branches: [main]
+    branches: [assignment7]
 
 jobs:
   code_deploy:
@@ -45,12 +45,6 @@ jobs:
       #     ls -al
       #     echo "Created artifact ${{ env.ARTIFACT_NAME }}"
       # aws s3 sync ./codedeploy_artifact s3://${{ secrets.AWS_BUCKET }}/deploy/
-          #       aws deploy create-deployment \
-          #  --application-name ${{ matrix.appname }} \
-          #  --deployment-config-name CodeDeployDefault.OneAtATime \
-          #  --deployment-group-name ${{ matrix.deploy-group }} \
-          #  --file-exists-behavior OVERWRITE \
-          #  --s3-location bucket=${{ matrix.s3-bucket }},key=${{ matrix.s3-filename }}.zip,bundleType=zip \
  
       - name: Step 4 - Upload Artifact/zip files to s3 bucket
         run: |
@@ -59,3 +53,8 @@ jobs:
       - name: Step 5 - Create Deployment
         run: |
           aws deploy create-deployment --application-name csye6225-webapp --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name csye6225-webapp-deployment --s3-location bucket=${S3_BUCKET_ADDR},bundleType=zip,key=deployments/csye6225-web-app-${CIRCLE_BUILD_NUM}.zip
+          aws deploy create-deployment \
+          --application-name csye6225-webapp \
+          --deployment-config-name CodeDeployDefault.AllAtOnce \
+          --deployment-group-name csye6225-webapp-deployment \
+          --s3-location bucket=${{ secrets.AWS_BUCKET }},key=${{ env.ARTIFACT_NAME }}.zip,bundleType=zip

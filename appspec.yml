@@ -1,20 +1,20 @@
-version: 0.0
-os: linux
+# version: 0.0
+# os: linux
 
-files:             
-  - source: ./
-    destination: /home/ec2-user/webservice
+# files:             
+#   - source: ./
+#     destination: /home/ec2-user/webservice
 
-hooks:
-  BeforeInstall:
-   - location: ./codedeploy/stopApplication.sh
-     timeout: 180
-     runas: root
-  AfterInstall:
-   - location: ./codedeploy/afterInstall.sh
-     timeout: 180
-     runas: root
-  ApplicationStart:
-   - location: ./codedeploy/startApplication.sh
-     timeout: 180
-     runas: root
+# hooks:
+#   BeforeInstall:
+#    - location: ./codedeploy/stopApplication.sh
+#      timeout: 180
+#      runas: root
+#   AfterInstall:
+#    - location: ./codedeploy/afterInstall.sh
+#      timeout: 180
+#      runas: root
+#   ApplicationStart:
+#    - location: ./codedeploy/startApplication.sh
+#      timeout: 180
+#      runas: root
