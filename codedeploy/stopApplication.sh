@@ -8,7 +8,5 @@ echo "Stop webservice"
 systemctl stop webservice
 echo "Removing webservice folder"
 rm -rf webservice
-pwd
-ls -al
 echo "Create a new folder"
 mkdir webservice
