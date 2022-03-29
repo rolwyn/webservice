@@ -1,13 +1,14 @@
 echo "Doing stuff before install"
 pwd
 ls -la
-echo "Doing stuff before install"
-# sudo pm2 stop all
+echo "cd to ec2-user"
 cd /home/ec2-user
 pwd
+echo "Stop webservice"
 systemctl stop webservice
 echo "Removing webservice folder"
 rm -rf webservice
 pwd
 ls -al
+echo "Create a new folder"
 mkdir webservice
