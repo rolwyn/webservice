@@ -6,7 +6,7 @@ env:
 
 on: 
   push:
-    branches: [assignment7]
+    branches: [main]
 
 jobs:
   code_deploy:

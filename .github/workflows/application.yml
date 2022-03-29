@@ -1,7 +1,13 @@
 name: Web App
-on: 
+
+env:
+  # environment vars
+  ARTIFACT_NAME: webservice-${{ github.sha }}
+
+on:
   push:
     branches: [assignment7]
+
 jobs:
   packer_validate:
     runs-on: ubuntu-latest
@@ -22,7 +28,7 @@ jobs:
           command: validate
           arguments: -var-file=variables.pkrvars.hcl -syntax-only
           target: application-ami.pkr.hcl
-          
+
   packer_build:
     needs: packer_validate
     runs-on: ubuntu-latest
