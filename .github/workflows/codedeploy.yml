@@ -24,27 +24,6 @@ jobs:
           aws configure set region us-east-1
           aws configure set aws_access_key_id ${{ secrets.AWS_GHUSER_ACCESS_KEY_ID }}
           aws configure set aws_secret_access_key ${{ secrets.AWS_GHUSER_SECRET_ACCESS_KEY }}
-
-      # - name: Step 4 - Create Deployment Artifact/zip
-      #   run: |
-      #     echo "Creating zip and building zip version ${{ github.sha }}"
-      #     pwd
-      #     ls -al
-      #     mkdir codedeploy_artifact
-      #     pwd
-      #     ls -al
-      #     zip -r ${{ env.ARTIFACT_NAME }}.zip ./
-      #     ls -al
-      #     mv ${{ env.ARTIFACT_NAME }}.zip codedeploy_artifact
-      #     pwd
-      #     cd codedeploy_artifact
-      #     pwd
-      #     ls -al
-      #     cd ..
-      #     pwd
-      #     ls -al
-      #     echo "Created artifact ${{ env.ARTIFACT_NAME }}"
-      # aws s3 sync ./codedeploy_artifact s3://${{ secrets.AWS_BUCKET }}/deploy/
  
       - name: Step 4 - Upload Artifact/zip files to s3 bucket
         run: |
