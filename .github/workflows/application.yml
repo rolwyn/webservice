@@ -6,31 +6,10 @@ env:
 
 on:
   push:
-    branches: [assignment7]
+    branches: [main]
 
 jobs:
-  packer_validate:
-    runs-on: ubuntu-latest
-    name: Validate Template
-    steps:
-      - name: Step 1 - Checkout code
-        uses: actions/checkout@v2
-
-      - name: Step 2 - Packer Init
-        uses: hashicorp/packer-github-actions@master
-        with:
-          command: init
-          target: application-ami.pkr.hcl
-
-      - name: Step 3 - Packer Validate
-        uses: hashicorp/packer-github-actions@master
-        with:
-          command: validate
-          arguments: -var-file=variables.pkrvars.hcl -syntax-only
-          target: application-ami.pkr.hcl
-
   packer_build:
-    needs: packer_validate
     runs-on: ubuntu-latest
     name: Build AMI
     steps:
