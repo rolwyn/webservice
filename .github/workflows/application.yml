@@ -1,29 +1,15 @@
 name: Web App
-on: 
+
+env:
+  # environment vars
+  ARTIFACT_NAME: webservice-${{ github.sha }}
+
+on:
   push:
     branches: [main]
+
 jobs:
-  packer_validate:
-    runs-on: ubuntu-latest
-    name: Validate Template
-    steps:
-      - name: Step 1 - Checkout code
-        uses: actions/checkout@v2
-
-      - name: Step 2 - Packer Init
-        uses: hashicorp/packer-github-actions@master
-        with:
-          command: init
-          target: application-ami.pkr.hcl
-
-      - name: Step 3 - Packer Validate
-        uses: hashicorp/packer-github-actions@master
-        with:
-          command: validate
-          arguments: -var-file=variables.pkrvars.hcl -syntax-only
-          target: application-ami.pkr.hcl
   packer_build:
-    needs: packer_validate
     runs-on: ubuntu-latest
     name: Build AMI
     steps:
@@ -51,3 +37,32 @@ jobs:
           target: application-ami.pkr.hcl
         env:
           PACKER_LOG: 1
+
+  code_deploy:
+    runs-on: ubuntu-latest
+    name: Run CodeDeploy
+    steps:
+      - name: Step 1 - Checkout code
+        uses: actions/checkout@v2
+
+      - name: Step 2 - Install AWS Cli
+        run: sudo pip install awscli
+
+      - name: Step 3 - Set correct aws environment
+        run: |
+          aws configure set region us-east-1
+          aws configure set aws_access_key_id ${{ secrets.AWS_GHUSER_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_GHUSER_SECRET_ACCESS_KEY }}
+ 
+      - name: Step 4 - Upload Artifact/zip files to s3 bucket
+        run: |
+          aws deploy push --application-name csye6225-webapp --s3-location s3://${{ secrets.AWS_BUCKET }}/${{ env.ARTIFACT_NAME }}.zip
+      
+      - name: Step 5 - Create Deployment
+        run: |
+          aws deploy create-deployment \
+          --application-name csye6225-webapp \
+          --deployment-config-name CodeDeployDefault.AllAtOnce \
+          --deployment-group-name csye6225-webapp-deployment \
+          --file-exists-behavior OVERWRITE \
+          --s3-location bucket=${{ secrets.AWS_BUCKET }},key=${{ env.ARTIFACT_NAME }}.zip,bundleType=zip \
