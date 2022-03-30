@@ -5,7 +5,7 @@ echo "cd to ec2-user"
 cd /home/ec2-user
 pwd
 echo "Stop webservice"
-systemctl stop webservice
+sudo systemctl stop webservice
 echo "Removing webservice folder"
 rm -rf webservice
 echo "Create a new folder"

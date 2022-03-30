@@ -6,4 +6,4 @@ cd /home/ec2-user
 echo "In webservice"
 cd webservice
 echo "npm install dependencies"
-npm install --production
+sudo npm install --production
