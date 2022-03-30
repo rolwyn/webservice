@@ -5,9 +5,9 @@ const authRouter = require('./authRoute')
  * @param {app} the express app 
  */
 module.exports = function(app) {
-    app.get('/healthz', (req, res) => {
+    app.get('/health', (req, res) => {
         res.json();
         // // res.sendStatus(200);
     });
-    app.use('/v1/user', authRouter);
+    app.use('/v2/user', authRouter);
 }
