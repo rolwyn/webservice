@@ -43,4 +43,14 @@ sudo ./install auto
 # sudo service codedeploy-agent start
 sudo service codedeploy-agent status
 
+sudo yum install amazon-cloudwatch-agent -y
+# check if agent is installed
+sudo yum -qa amazon-cloudwatch-agent
+# start cloudwatch agent
+sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/home/ec2-user/webservice/amazon-cloudwatch-config.json -s
+# check if agent is running
+ps aux | grep amazon-cloudwatch-agent
+# create logs folder in root
+sudo mkdir -p ~/logs
+
 

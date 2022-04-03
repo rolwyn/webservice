@@ -6,7 +6,7 @@ env:
 
 on:
   push:
-    branches: [main]
+    branches: [assignment8]
 
 jobs:
   packer_build:
