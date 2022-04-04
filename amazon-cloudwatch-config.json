@@ -23,12 +23,29 @@
         "log_stream_name": "webapp_log_stream"
     },
     "metrics":{
-      "metrics_collected":{
-         "statsd":{
-            "service_address":":8125",
-            "metrics_collection_interval":15,
-            "metrics_aggregation_interval":300
-         }
-      }
-   }
+        "metrics_collected":{
+            "statsd":{
+                "service_address":":8125",
+                "metrics_collection_interval":15,
+                "metrics_aggregation_interval":300
+            }
+        },
+        "append_dimensions": {
+            "ImageId": "${aws:ImageId}",
+            "InstanceId": "${aws:InstanceId}",
+            "InstanceType": "${aws:InstanceType}",
+            "AutoScalingGroupName": "${aws:AutoScalingGroupName}"
+        },
+        "aggregation_dimensions": [
+            [
+                "AutoScalingGroupName",
+                "metric_type"
+            ],
+            [
+                "InstanceId",
+                "InstanceType"
+            ],
+            []
+        ] 
+    }
 }
