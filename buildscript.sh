@@ -22,8 +22,9 @@ cd ~/webservice
 sudo npm install pm2@latest -g
 # sudo chmod -R 777 /home/ec2-user/.pm2
 sudo pm2 startup systemd --service-name webservice
-sudo pm2 startOrReload ecosystem.config.js --name webapp
-sudo pm2 start server.js
+# sudo pm2 startOrReload ecosystem.config.js --name webapp
+sudo pm2 startOrReload ecosystem.config.js
+# sudo pm2 start server.js
 sudo pm2 save
 
 # codedeploy steps

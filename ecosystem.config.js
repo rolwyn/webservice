@@ -1,7 +1,7 @@
 module.exports = {
     apps: [
         {
-            name: 'webapp',
+            name: 'webservice',
             script: 'npm',
             args: 'start',
             env: {
