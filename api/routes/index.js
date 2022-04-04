@@ -8,7 +8,7 @@ const sdc = new statsDClient({ host: 'localhost', port: 8125 })
  */
 module.exports = function(app) {
     app.get('/healthz', (req, res) => {
-        stats.increment('healthz');
+        sdc.increment('healthz');
         res.json()
         // // res.sendStatus(200);
     });
