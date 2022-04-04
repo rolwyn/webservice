@@ -4,6 +4,8 @@ const User = require('../models/User')
 const { validationResult } = require('express-validator')
 const bcrypt = require('bcryptjs')
 const Sequelize = require('sequelize')
+const statsDClient = require('statsd-client')
+const sdc = new statsDClient({ host: 'localhost', port: 8125 })
 
 /**
  * Set a success response
@@ -37,6 +39,7 @@ const setErrorResponse = (message, res, errCode=500) => {
  */
 const signup = async (req, res) => {
     try {
+        sdc.increment('POST /v1/user');
         // express validator to check if errors
         const validationErrors = validationResult(req);
         if (!validationErrors.isEmpty()) {
@@ -65,6 +68,7 @@ const signup = async (req, res) => {
 
 const authenticate = async (req, res) => {
     try {
+        sdc.increment('GET /v1/user/self');
         // the username and password from Basic Auth
         const requsername = req.credentials.name
         const reqpassword = req.credentials.pass
@@ -92,7 +96,7 @@ const authenticate = async (req, res) => {
 
 const updateUser = async (req, res) => {
     try {
-
+        sdc.increment('PUT /v1/user/self');
         // if any validation fails
         const validationErrors = validationResult(req);
         if (!validationErrors.isEmpty()) {

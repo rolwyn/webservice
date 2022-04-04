@@ -48,10 +48,7 @@ sudo service codedeploy-agent status
 
 # install cw agent
 sudo yum install amazon-cloudwatch-agent -y
-# create logs folder in root and start the webapp
 # start cloudwatch agent
 sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/home/ec2-user/webservice/amazon-cloudwatch-config.json -s
 # check if agent is running.
 ps aux | grep amazon-cloudwatch-agent
-
-
