@@ -12,6 +12,8 @@ require('dotenv').config()
 
 const s3 = new awssdk.S3({apiVersion: "2006-03-01"})
 
+const statsDClient = require('statsd-client')
+const sdc = new statsDClient({ host: 'localhost', port: 8125 })
 /**
  * Set a success response
  * 
@@ -39,7 +41,7 @@ const setErrorResponse = (message, res, errCode=500) => {
 }
 
 const fileUpload = async (req, res) => {
-
+    sdc.increment('POST /v1/user/self/pic');
     const requsername = req.credentials.name
     const reqpassword = req.credentials.pass
 
@@ -122,6 +124,7 @@ const fileUpload = async (req, res) => {
 
 const getFile = async (req, res) => {
     try {
+        sdc.increment('GET /v1/user/self/pic');
         // the username and password from Basic Auth
         const requsername = req.credentials.name
         const reqpassword = req.credentials.pass
@@ -153,6 +156,7 @@ const getFile = async (req, res) => {
 
 const deleteFile = async (req, res) => {
     try {
+        sdc.increment('DELETE /v1/user/self/pic');
         // the username and password from Basic Auth
         const requsername = req.credentials.name
         const reqpassword = req.credentials.pass

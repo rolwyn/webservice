@@ -21,8 +21,11 @@ sleep 5
 cd ~/webservice
 sudo npm install pm2@latest -g
 # sudo chmod -R 777 /home/ec2-user/.pm2
+sudo mkdir -p ~/logs
 sudo pm2 startup systemd --service-name webservice
-sudo pm2 start server.js
+# sudo pm2 startOrReload ecosystem.config.js --name webapp
+sudo pm2 startOrReload ecosystem.config.js
+# sudo pm2 start server.js
 sudo pm2 save
 
 # codedeploy steps
@@ -43,4 +46,9 @@ sudo ./install auto
 # sudo service codedeploy-agent start
 sudo service codedeploy-agent status
 
-
+# install cw agent
+sudo yum install amazon-cloudwatch-agent -y
+# start cloudwatch agent
+sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/home/ec2-user/webservice/amazon-cloudwatch-config.json -s
+# check if agent is running.
+ps aux | grep amazon-cloudwatch-agent
