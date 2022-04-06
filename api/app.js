@@ -5,9 +5,12 @@ const routes = require('./routes/index')
 const cors = require('cors')
 const db = require('../config/database')
 // require('dotenv').config()
+const morgan = require('morgan');
 
 // creates an express server
 const app = express();
+
+app.use(morgan('tiny'));
 
 db.sync({ force: false }).then(() => {
     console.log("Drop and re-sync db.");
