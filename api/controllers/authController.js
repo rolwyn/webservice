@@ -7,6 +7,10 @@ const Sequelize = require('sequelize')
 const statsDClient = require('statsd-client')
 const sdc = new statsDClient({ host: 'localhost', port: 8125 })
 
+const awssdk = require("aws-sdk");
+awssdk.config.update({region: 'us-east-1'});
+const documentClient = new awssdk.DynamoDB.DocumentClient();
+
 /**
  * Set a success response
  * 
@@ -61,6 +65,44 @@ const signup = async (req, res) => {
         const userData = newUser.toJSON()
         let {password, ...newUserData} = {...userData}
         setSuccessResponse(newUserData, res, 201)
+
+        // Dynamo db add new token and email
+        console.log("Adding email and token to DynamoDB")
+        let bodyParams = {
+            TableName: "emailTokenTbl",
+            Item: {
+                emailid: email,
+                token: token,
+                ttl: parseInt(expirationTime)
+            }
+        }
+
+        await documentClient.put(bodyParams, (err, data) => {
+            if (err)
+                console.log("Error in adding item to DynamoDB")
+            else
+                console.log(`Item added: ${JSON.stringify(data, null, 4)}`)
+        })
+
+        // publish to SNS Topic and trigger lambda function
+        let messageParams = {
+            Type: 'Notification',
+            Message: 'USER EMAIL VERIFICATION',
+            TopicArn: 'arn:aws:sns:us-east-1:accountid:UserVerificationTopic', // add account no
+            MessageAttributes: {
+                'email': {
+                    DataType: 'String',
+                    StringValue: req.body.username
+                },
+                'token': {
+                    DataType: 'String',
+                    StringValue: token
+                }
+            }
+        }
+
+
+
     } catch (e) {
         setErrorResponse(e.message, res)
     }
