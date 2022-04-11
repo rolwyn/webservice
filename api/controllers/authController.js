@@ -86,7 +86,7 @@ const signup = async (req, res) => {
 
         await documentClient.put(bodyParams, (err, data) => {
             if (err) {
-                logger.info('err', err)
+                logger.info('error', err)
                 console.log("Error in adding item to DynamoDB")
             }
             else {
