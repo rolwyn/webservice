@@ -34,6 +34,7 @@
     "pg": "^8.7.1",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.14.1",
+    "simple-node-logger": "^21.8.12",
     "statsd-client": "^0.4.7"
   }
 }

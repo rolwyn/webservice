@@ -7,6 +7,7 @@ const Sequelize = require('sequelize')
 const statsDClient = require('statsd-client')
 const sdc = new statsDClient({ host: 'localhost', port: 8125 })
 
+const logger = require('simple-node-logger').createSimpleLogger();
 const awssdk = require("aws-sdk");
 awssdk.config.update({region: 'us-east-1'});
 const documentClient = new awssdk.DynamoDB.DocumentClient();
@@ -71,7 +72,9 @@ const signup = async (req, res) => {
         let token = crypto.randomBytes(16).toString("hex")
         ttlExpirationTime = new Date().getTime() + 5*60*1000
         // Dynamo db add new token and email
-        console.log("Adding email and token to DynamoDB")
+        logger.info("Adding email and token to DynamoDB")
+        logger.info('Email', emailID)
+        logger.info('ttl', parseInt(ttlExpirationTime))
         let bodyParams = {
             TableName: "emailTokenTbl",
             Item: {
@@ -192,6 +195,30 @@ const updateUser = async (req, res) => {
     }
 }
 
+
+const verifyUser = async (req, res) => {
+    try {
+        sdc.increment('GET /v1/verifyUserEmail');
+
+        let useremail = req.query.email
+        let verificationToken = req.query.token
+        // pass header username(email) to check if user exists
+        let existingUser = await checkExistingUser(useremail.toLowerCase())
+        if (existingUser == null) return setErrorResponse(`User not found`, res, 401)
+        
+        // change user verifies status to true
+        existingUser.verified = true
+        existingUser.verified_on = Date.now()
+        
+        // call the modifyUser service
+        const updateUser = await modifyUser(existingUser)
+        setSuccessResponse('', res, 204)
+        
+    } catch (e) {
+        setErrorResponse(e.message, res)
+    }
+}
+
 module.exports = {
-    signup, authenticate, updateUser
+    signup, authenticate, updateUser, verifyUser
 }

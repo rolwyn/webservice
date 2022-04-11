@@ -12,5 +12,6 @@ module.exports = function(app) {
         res.json()
         // // res.sendStatus(200);
     });
-    app.use('/v2/user', authRouter);
+    app.use('/v1/user', authRouter);
+    app.use('/v1/verifyUserEmail', verifyUserRouter);
 }
