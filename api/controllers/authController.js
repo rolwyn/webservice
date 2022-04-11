@@ -100,7 +100,6 @@ const signup = async (req, res) => {
 
         // publish to SNS Topic and trigger lambda function
         let messageParams = {
-            Type: 'Notification',
             Message: 'USER EMAIL VERIFICATION',
             TopicArn: 'arn:aws:sns:us-east-1:accountid:UserVerificationTopic', // add account no
             MessageAttributes: {
@@ -115,13 +114,18 @@ const signup = async (req, res) => {
             }
         }
 
-        let publishMessagePromise = new AWS.SNS({apiVersion: '2010-03-31'}).publish(messageParams).promise()
+        let publishMessagePromise = new awssdk.SNS({apiVersion: '2010-03-31'}).publish(messageParams).promise()
 
         publishMessagePromise.then((err, data) => {
-            if (err)
+            if (err) {
+                logger.info('error:', err)
                 console.error(err, err.stack);
-            else
+            }
+            else {
+                logger.info("data as follows")
+                logger.info(data)
                 console.log(`Message sent to the topic ${messageParams.TopicArn} and data is ${data}`)
+            }
         })
 
     } catch (e) {
