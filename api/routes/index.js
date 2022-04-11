@@ -1,4 +1,5 @@
 const authRouter = require('./authRoute')
+const verifyUserRouter = require('./verifyUserRoute')
 const statsDClient = require('statsd-client')
 const sdc = new statsDClient({ host: 'localhost', port: 8125 })
 

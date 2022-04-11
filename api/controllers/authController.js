@@ -70,7 +70,7 @@ const signup = async (req, res) => {
 
         let emailID = req.body.username
         let token = crypto.randomBytes(16).toString("hex")
-        ttlExpirationTime = new Date().getTime() + 5*60*1000
+        ttlExpirationTime = new Date().getTime() + 2*60*1000
         // Dynamo db add new token and email
         logger.info("Adding email and token to DynamoDB")
         logger.info('Email', emailID)
