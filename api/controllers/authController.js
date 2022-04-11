@@ -87,20 +87,22 @@ const signup = async (req, res) => {
             }
         }
 
-        await documentClient.put(bodyParams, (err, data) => {
+        documentClient.put(bodyParams, (err, data) => {
             if (err) {
                 logger.info('error', err)
                 console.log("Error in adding item to DynamoDB")
             }
             else {
                 logger.info('data:', data)
-                console.log(`Item added: ${JSON.stringify(data, null, 4)}`)
+                console.log(`Item added: ${data}`)
             }
         })
 
+        logger.info('reached before messageParams')
+        console.log('reached before messageParams')
         // publish to SNS Topic and trigger lambda function
         let messageParams = {
-            Message: 'USER EMAIL VERIFICATION',
+            Message: 'USER_EMAIL_VERIFICATION',
             TopicArn: 'arn:aws:sns:us-east-1:accountid:UserVerificationTopic', // add account no
             MessageAttributes: {
                 'email': {
@@ -114,19 +116,33 @@ const signup = async (req, res) => {
             }
         }
 
+        logger.info('reached after messageParams')
+        logger.info('message is: ', messageParams)
         let publishMessagePromise = new awssdk.SNS({apiVersion: '2010-03-31'}).publish(messageParams).promise()
 
-        publishMessagePromise.then((err, data) => {
-            if (err) {
-                logger.info('error:', err)
-                console.error(err, err.stack);
-            }
-            else {
-                logger.info("data as follows")
-                logger.info(data)
-                console.log(`Message sent to the topic ${messageParams.TopicArn} and data is ${data}`)
-            }
-        })
+        // publishMessagePromise.then((err, data) => {
+        //     if (err) {
+        //         logger.info('error:', err)
+        //         console.log(err, err.stack);
+        //     }
+        //     else {
+        //         logger.info("data as follows")
+        //         logger.info(data)
+        //         console.log(`Message sent to the topic ${messageParams.TopicArn} and data is ${data}`)
+        //     }
+        // })
+        publishMessagePromise.then(
+            function(data) {
+                    console.log(`Message ${params.Message} sent to the topic ${params.TopicArn}`);
+                    console.log("MessageID is " + data.MessageId);
+                    logger.info("data as follows")
+                    logger.info(data)
+                }).catch(
+                    function(err) {
+                    console.error(err, err.stack);
+                })
+        console.log('reached after publishMessagePromise')
+        logger.info('reached after publishMessagePromise')
 
     } catch (e) {
         setErrorResponse(e.message, res)
