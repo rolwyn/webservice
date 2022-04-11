@@ -68,19 +68,22 @@ const signup = async (req, res) => {
         let {password, ...newUserData} = {...userData}
         setSuccessResponse(newUserData, res, 201)
 
+        
         let emailID = req.body.username
         let token = crypto.randomBytes(16).toString("hex")
-        ttlExpirationTime = new Date().getTime() + 2*60*1000
+        // ttlExpirationTime = new Date().getTime() + 2*60*1000
+        ttlExpirationTime = Math.floor(Date.now() / 1000) + 120
+
         // Dynamo db add new token and email
         logger.info("Adding email and token to DynamoDB")
         logger.info('Email', emailID)
-        logger.info('ttl', parseInt(ttlExpirationTime))
+        logger.info('ttl', ttlExpirationTime)
         let bodyParams = {
             TableName: "emailTokenTbl",
             Item: {
                 emailid: emailID,
                 token: token,
-                ttl: parseInt(ttlExpirationTime)
+                ttl: ttlExpirationTime
             }
         }
 
@@ -96,31 +99,30 @@ const signup = async (req, res) => {
         })
 
         // publish to SNS Topic and trigger lambda function
-        // let messageParams = {
-        //     Type: 'Notification',
-        //     Message: 'USER EMAIL VERIFICATION',
-        //     Subject: 'Verify your account',
-        //     TopicArn: 'arn:aws:sns:us-east-1:accountid:UserVerificationTopic', // add account no
-        //     MessageAttributes: {
-        //         'email': {
-        //             DataType: 'String',
-        //             StringValue: req.body.username
-        //         },
-        //         'token': {
-        //             DataType: 'String',
-        //             StringValue: token
-        //         }
-        //     }
-        // }
+        let messageParams = {
+            Type: 'Notification',
+            Message: 'USER EMAIL VERIFICATION',
+            TopicArn: 'arn:aws:sns:us-east-1:accountid:UserVerificationTopic', // add account no
+            MessageAttributes: {
+                'email': {
+                    DataType: 'String',
+                    StringValue: emailID
+                },
+                'token': {
+                    DataType: 'String',
+                    StringValue: token
+                }
+            }
+        }
 
-        // let publishMessagePromise = new AWS.SNS({apiVersion: '2010-03-31'}).publish(messageParams).promise()
+        let publishMessagePromise = new AWS.SNS({apiVersion: '2010-03-31'}).publish(messageParams).promise()
 
-        // publishMessagePromise.then((err, data) => {
-        //     if (err)
-        //         console.error(err, err.stack);
-        //     else
-        //         console.log(`Message sent to the topic ${messageParams.TopicArn} and data is ${data}`)
-        // })
+        publishMessagePromise.then((err, data) => {
+            if (err)
+                console.error(err, err.stack);
+            else
+                console.log(`Message sent to the topic ${messageParams.TopicArn} and data is ${data}`)
+        })
 
     } catch (e) {
         setErrorResponse(e.message, res)
