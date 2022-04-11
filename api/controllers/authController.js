@@ -85,10 +85,14 @@ const signup = async (req, res) => {
         }
 
         await documentClient.put(bodyParams, (err, data) => {
-            if (err)
+            if (err) {
+                logger.info('err', err)
                 console.log("Error in adding item to DynamoDB")
-            else
+            }
+            else {
+                logger.info('data:', data)
                 console.log(`Item added: ${JSON.stringify(data, null, 4)}`)
+            }
         })
 
         // publish to SNS Topic and trigger lambda function
