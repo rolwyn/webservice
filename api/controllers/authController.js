@@ -228,7 +228,7 @@ const updateUser = async (req, res) => {
 
 
 const verifyUser = async (req, res) => {
-    try {
+    // try {
         sdc.increment('GET /v1/verifyUserEmail');
 
         let useremail = req.query.email
@@ -244,25 +244,42 @@ const verifyUser = async (req, res) => {
             }
         }
 
-        documentClient.get(getEmailParams, (err, data) => {
-            if (err) return setErrorResponse(`Data for given emailid cannot be found`, res, 400)
-            console.log(data)
-            if (Object.keys(data).length === 1 && Math.floor(Date.now() / 1000) < data.Item.ttl) {
-                // change user verifies status to true
-                existingUser.verified = true
-                existingUser.verified_on = Date.now()
-                // call the modifyUser service
-                const updateUser = modifyUser(existingUser)
-                setSuccessResponse('', res, 204)
-            } else {
-                return setErrorResponse(`Token has expired, User cannot be verified`, res, 400)
-            }
-        })
+        documentClient.get(getEmailParams).promise()
+            .then(function(data) {
+                console.log(data)
+                if (Object.keys(data).length === 1 && Math.floor(Date.now() / 1000) < data.Item.ttl) {
+                    // change user verifies status to true
+                    existingUser.verified = true
+                    existingUser.verified_on = Date.now()
+                    // call the modifyUser service
+                    const updateUser = modifyUser(existingUser)
+                    setSuccessResponse('', res, 204)
+                } else {
+                    return setErrorResponse(`Token has expired, User cannot be verified`, res, 400)
+                }            
+            })
+            .catch(function(err) {
+                return setErrorResponse(`Data for given emailid cannot be found`, res, 400)
+            });
+        // documentClient.get(getEmailParams, (err, data) => {
+        //     if (err) return setErrorResponse(`Data for given emailid cannot be found`, res, 400)
+        //     console.log(data)
+        //     if (Object.keys(data).length === 1 && Math.floor(Date.now() / 1000) < data.Item.ttl) {
+        //         // change user verifies status to true
+        //         existingUser.verified = true
+        //         existingUser.verified_on = Date.now()
+        //         // call the modifyUser service
+        //         const updateUser = modifyUser(existingUser)
+        //         setSuccessResponse('', res, 204)
+        //     } else {
+        //         return setErrorResponse(`Token has expired, User cannot be verified`, res, 400)
+        //     }
+        // })
         
         
-    } catch (e) {
-        setErrorResponse(e.message, res)
-    }
+    // } catch (e) {
+    //     setErrorResponse(e.message, res)
+    // }
 }
 
 module.exports = {
