@@ -251,7 +251,7 @@ const verifyUser = async (req, res) => {
                 existingUser.verified = true
                 existingUser.verified_on = Date.now()
                 // call the modifyUser service
-                const updateUser = await modifyUser(existingUser)
+                const updateUser = modifyUser(existingUser)
                 setSuccessResponse('', res, 204)
             } else {
                 return setErrorResponse(`Token has expired, User cannot be verified`, res, 400)
