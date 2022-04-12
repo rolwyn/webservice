@@ -68,16 +68,16 @@ const signup = async (req, res) => {
         let {password, ...newUserData} = {...userData}
         setSuccessResponse(newUserData, res, 201)
 
-        
         let emailID = req.body.username
         let token = crypto.randomBytes(16).toString("hex")
-        // ttlExpirationTime = new Date().getTime() + 2*60*1000
         ttlExpirationTime = Math.floor(Date.now() / 1000) + 120
 
         // Dynamo db add new token and email
         logger.info("Adding email and token to DynamoDB")
         logger.info('Email', emailID)
         logger.info('ttl', ttlExpirationTime)
+
+        // body parameters for adding data
         let bodyParams = {
             TableName: "emailTokenTbl",
             Item: {
@@ -87,6 +87,7 @@ const signup = async (req, res) => {
             }
         }
 
+        // put data in dynamodb
         await documentClient.put(bodyParams, (err, data) => {
             if (err) {
                 logger.info('error', err)
@@ -98,9 +99,6 @@ const signup = async (req, res) => {
             }
         })
 
-        // TopicArn: "arn:aws:sns:us-east-1:605680160689:UserVerificationTopic",
-        logger.info('reached before messageParams')
-        console.log('reached before messageParams')
         // publish to SNS Topic and trigger lambda function
         let messageParams = {
             Message: 'USER_EMAIL_VERIFICATION',
@@ -117,34 +115,16 @@ const signup = async (req, res) => {
             }
         }
 
-        logger.info('reached after messageParams')
-        logger.info('message is: ', messageParams)
         let publishMessagePromise = await new awssdk.SNS({apiVersion: '2010-03-31'}).publish(messageParams).promise();
 
-        // publishMessagePromise.then((err, data) => {
-        //     if (err) {
-        //         logger.info('error:', err)
-        //         console.log(err, err.stack);
-        //     }
-        //     else {
-        //         logger.info("data as follows")
-        //         logger.info(data)
-        //         console.log(`Message sent to the topic ${messageParams.TopicArn} and data is ${data}`)
-        //     }
-        // })
         publishMessagePromise.then(
             function(data) {
-                    // console.log(`Message ${params.Message} sent to the topic ${params.TopicArn}`);
-                    console.log("MessageID is " + data.MessageId);
-                    logger.info("data as follows")
-                    logger.info(data)
-                }).catch(
-                    function(err) {
-                    console.error(err, err.stack);
-                })
-        console.log('reached after publishMessagePromise')
-        logger.info('reached after publishMessagePromise')
-
+                console.log("MessageID is " + data.MessageId);
+                logger.info(data)
+            }).catch(
+                function(err) {
+                console.error(err, err.stack);
+            })
     } catch (e) {
         setErrorResponse(e.message, res)
     }
@@ -228,27 +208,29 @@ const updateUser = async (req, res) => {
 
 
 const verifyUser = async (req, res) => {
-    // try {
+    try {
         sdc.increment('GET /v1/verifyUserEmail');
 
         let useremail = req.query.email
-        let verificationToken = req.query.token
         // pass header username(email) to check if user exists
         let existingUser = await checkExistingUser(useremail.toLowerCase())
         if (existingUser == null) return setErrorResponse(`User not found`, res, 401)
 
+        // if user is already verified, then skip the rest
+        if(existingUser.verified) return setErrorResponse(`Already verified`, res, 400)
+
         let getEmailParams = {
             TableName: 'emailTokenTbl',
             Key: {
-                emailid: emailId
+                emailid: useremail
             }
         }
 
         documentClient.get(getEmailParams).promise()
             .then(function(data) {
-                console.log(data)
                 if (Object.keys(data).length === 1 && Math.floor(Date.now() / 1000) < data.Item.ttl) {
                     // change user verifies status to true
+                    logger.info('data is: ', data)
                     existingUser.verified = true
                     existingUser.verified_on = Date.now()
                     // call the modifyUser service
@@ -256,30 +238,14 @@ const verifyUser = async (req, res) => {
                     setSuccessResponse('', res, 204)
                 } else {
                     return setErrorResponse(`Token has expired, User cannot be verified`, res, 400)
-                }            
+                }
             })
             .catch(function(err) {
                 return setErrorResponse(`Data for given emailid cannot be found`, res, 400)
             });
-        // documentClient.get(getEmailParams, (err, data) => {
-        //     if (err) return setErrorResponse(`Data for given emailid cannot be found`, res, 400)
-        //     console.log(data)
-        //     if (Object.keys(data).length === 1 && Math.floor(Date.now() / 1000) < data.Item.ttl) {
-        //         // change user verifies status to true
-        //         existingUser.verified = true
-        //         existingUser.verified_on = Date.now()
-        //         // call the modifyUser service
-        //         const updateUser = modifyUser(existingUser)
-        //         setSuccessResponse('', res, 204)
-        //     } else {
-        //         return setErrorResponse(`Token has expired, User cannot be verified`, res, 400)
-        //     }
-        // })
-        
-        
-    // } catch (e) {
-    //     setErrorResponse(e.message, res)
-    // }
+    } catch (e) {
+        setErrorResponse(e.message, res)
+    }
 }
 
 module.exports = {
