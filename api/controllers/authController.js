@@ -98,12 +98,13 @@ const signup = async (req, res) => {
             }
         })
 
+        // TopicArn: "arn:aws:sns:us-east-1:605680160689:UserVerificationTopic",
         logger.info('reached before messageParams')
         console.log('reached before messageParams')
         // publish to SNS Topic and trigger lambda function
         let messageParams = {
             Message: 'USER_EMAIL_VERIFICATION',
-            TopicArn: "arn:aws:sns:us-east-1:605680160689:UserVerificationTopic",
+            TopicArn: process.env.SNS_TOPIC_ARN,
             MessageAttributes: {
                 'emailid': {
                     DataType: 'String',
