@@ -88,7 +88,7 @@ const signup = async (req, res) => {
         }
 
         // put data in dynamodb
-        await documentClient.put(bodyParams, (err, data) => {
+        documentClient.put(bodyParams, (err, data) => {
             if (err) {
                 logger.info('error', err)
                 console.log("Error in adding item to DynamoDB")
@@ -119,7 +119,7 @@ const signup = async (req, res) => {
 
         publishMessagePromise.then(
             function(data) {
-                console.log("MessageID is " + data.MessageId);
+                console.log("Successfully published to sns topic")
                 logger.info(data)
             }).catch(
                 function(err) {
