@@ -115,12 +115,13 @@ const signup = async (req, res) => {
             }
         }
 
-        let publishMessagePromise = await new awssdk.SNS({apiVersion: '2010-03-31'}).publish(messageParams).promise();
+        let publishMessagePromise = new awssdk.SNS({apiVersion: '2010-03-31'}).publish(messageParams).promise();
 
         publishMessagePromise.then(
             function(data) {
-                console.log("Successfully published to sns topic")
                 logger.info(data)
+                console.log("Successfully published to sns topic")
+                console.log("MessageID: " + data.MessageId);
             }).catch(
                 function(err) {
                 console.error(err, err.stack);
