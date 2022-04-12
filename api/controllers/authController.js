@@ -105,7 +105,7 @@ const signup = async (req, res) => {
             Message: 'USER_EMAIL_VERIFICATION',
             TopicArn: "arn:aws:sns:us-east-1:605680160689:UserVerificationTopic",
             MessageAttributes: {
-                'email': {
+                'emailid': {
                     DataType: 'String',
                     StringValue: emailID
                 },
