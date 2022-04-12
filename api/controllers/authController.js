@@ -212,6 +212,7 @@ const verifyUser = async (req, res) => {
         sdc.increment('GET /v1/verifyUserEmail');
 
         let useremail = req.query.email
+        let token = req.query.token
         // pass header username(email) to check if user exists
         let existingUser = await checkExistingUser(useremail.toLowerCase())
         if (existingUser == null) return setErrorResponse(`User not found`, res, 401)
@@ -228,8 +229,9 @@ const verifyUser = async (req, res) => {
 
         documentClient.get(getEmailParams).promise()
             .then(function(data) {
-                if (Object.keys(data).length === 1 && Math.floor(Date.now() / 1000) < data.Item.ttl) {
+                if (Object.keys(data).length === 1 && Math.floor(Date.now() / 1000) < data.Item.ttl && token === data.Item.token) {
                     // change user verifies status to true
+                    logger.info(`Verified token is ${data.Item.token}`)
                     logger.info('data is: ', data)
                     existingUser.verified = true
                     existingUser.verified_on = Date.now()
