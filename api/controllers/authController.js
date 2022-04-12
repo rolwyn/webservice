@@ -160,6 +160,8 @@ const authenticate = async (req, res) => {
         const existingUser = await checkExistingUser(requsername.toLowerCase())
         if (existingUser == null) return setErrorResponse(`User not found`, res, 401)
 
+        if (!existingUser.verified) return setErrorResponse(`User not verified`, res, 401)
+
         let isPasswordMatch = bcrypt.compareSync(
             reqpassword,
             existingUser.password
@@ -193,6 +195,8 @@ const updateUser = async (req, res) => {
         // pass header username(email) to check if user exists
         let existingUser = await checkExistingUser(requsername.toLowerCase())
         if (existingUser == null) return setErrorResponse(`User not found`, res, 401)
+
+        if (!existingUser.verified) return setErrorResponse(`User not verified`, res, 401)
 
         let isPasswordMatch = bcrypt.compareSync(
             reqpassword,
@@ -231,14 +235,29 @@ const verifyUser = async (req, res) => {
         // pass header username(email) to check if user exists
         let existingUser = await checkExistingUser(useremail.toLowerCase())
         if (existingUser == null) return setErrorResponse(`User not found`, res, 401)
+
+        let getEmailParams = {
+            TableName: 'emailTokenTbl',
+            Key: {
+                emailid: emailId
+            }
+        }
+
+        documentClient.get(getEmailParams, (err, data) => {
+            if (err) return setErrorResponse(`Data for given emailid cannot be found`, res, 400)
+            console.log(data)
+            if (Object.keys(data).length === 1 && Math.floor(Date.now() / 1000) < data.Item.ttl) {
+                // change user verifies status to true
+                existingUser.verified = true
+                existingUser.verified_on = Date.now()
+                // call the modifyUser service
+                const updateUser = await modifyUser(existingUser)
+                setSuccessResponse('', res, 204)
+            } else {
+                return setErrorResponse(`Token has expired, User cannot be verified`, res, 400)
+            }
+        })
         
-        // change user verifies status to true
-        existingUser.verified = true
-        existingUser.verified_on = Date.now()
-        
-        // call the modifyUser service
-        const updateUser = await modifyUser(existingUser)
-        setSuccessResponse('', res, 204)
         
     } catch (e) {
         setErrorResponse(e.message, res)

@@ -49,6 +49,8 @@ const fileUpload = async (req, res) => {
     let existingUser = await checkExistingUser(requsername.toLowerCase())
     if (existingUser == null) return setErrorResponse(`User not found`, res, 401)
 
+    if (!existingUser.verified) return setErrorResponse(`User not verified`, res, 401)
+
     let isPasswordMatch = bcrypt.compareSync(
         reqpassword,
         existingUser.password
@@ -133,6 +135,8 @@ const getFile = async (req, res) => {
         const existingUser = await checkExistingUser(requsername.toLowerCase())
         if (existingUser == null) return setErrorResponse(`User not found`, res, 401)
 
+        if (!existingUser.verified) return setErrorResponse(`User not verified`, res, 401)
+
         let isPasswordMatch = bcrypt.compareSync(
             reqpassword,
             existingUser.password
@@ -164,6 +168,8 @@ const deleteFile = async (req, res) => {
         // pass header username(email) to check if user exists
         const existingUser = await checkExistingUser(requsername.toLowerCase())
         if (existingUser == null) return setErrorResponse(`User not found`, res, 401)
+
+        if (!existingUser.verified) return setErrorResponse(`User not verified`, res, 401)
 
         let isPasswordMatch = bcrypt.compareSync(
             reqpassword,
