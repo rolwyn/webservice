@@ -20,6 +20,13 @@ const User = db.define('users', {
     lastname: {
         type: Sequelize.STRING
     },
+    verified: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+    },
+    verified_on: {
+        type: Sequelize.DATE
+    },
     account_created: {
         type: Sequelize.DATE
     },

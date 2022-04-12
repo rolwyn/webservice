@@ -7,6 +7,12 @@ const Sequelize = require('sequelize')
 const statsDClient = require('statsd-client')
 const sdc = new statsDClient({ host: 'localhost', port: 8125 })
 
+const logger = require('simple-node-logger').createSimpleLogger();
+const awssdk = require("aws-sdk");
+awssdk.config.update({region: 'us-east-1'});
+const documentClient = new awssdk.DynamoDB.DocumentClient();
+const crypto = require('crypto');
+
 /**
  * Set a success response
  * 
@@ -61,6 +67,64 @@ const signup = async (req, res) => {
         const userData = newUser.toJSON()
         let {password, ...newUserData} = {...userData}
         setSuccessResponse(newUserData, res, 201)
+
+        let emailID = req.body.username
+        let token = crypto.randomBytes(16).toString("hex")
+        ttlExpirationTime = Math.floor(Date.now() / 1000) + 120
+
+        // Dynamo db add new token and email
+        logger.info("Adding email and token to DynamoDB")
+        logger.info('Email', emailID)
+        logger.info('ttl', ttlExpirationTime)
+
+        // body parameters for adding data
+        let bodyParams = {
+            TableName: "emailTokenTbl",
+            Item: {
+                emailid: emailID,
+                token: token,
+                ttl: ttlExpirationTime
+            }
+        }
+
+        // put data in dynamodb
+        documentClient.put(bodyParams, (err, data) => {
+            if (err) {
+                logger.info('error', err)
+                console.log("Error in adding item to DynamoDB")
+            }
+            else {
+                logger.info('data:', data)
+                console.log(`Item added: ${data}`)
+            }
+        })
+
+        // publish to SNS Topic and trigger lambda function
+        let messageParams = {
+            Message: 'USER_EMAIL_VERIFICATION',
+            TopicArn: process.env.SNS_TOPIC_ARN,
+            MessageAttributes: {
+                'emailid': {
+                    DataType: 'String',
+                    StringValue: emailID
+                },
+                'token': {
+                    DataType: 'String',
+                    StringValue: token
+                }
+            }
+        }
+
+        let publishMessagePromise = await new awssdk.SNS({apiVersion: '2010-03-31'}).publish(messageParams).promise();
+
+        publishMessagePromise.then(
+            function(data) {
+                console.log("Successfully published to sns topic")
+                logger.info(data)
+            }).catch(
+                function(err) {
+                console.error(err, err.stack);
+            })
     } catch (e) {
         setErrorResponse(e.message, res)
     }
@@ -76,6 +140,8 @@ const authenticate = async (req, res) => {
         // pass header username(email) to check if user exists
         const existingUser = await checkExistingUser(requsername.toLowerCase())
         if (existingUser == null) return setErrorResponse(`User not found`, res, 401)
+
+        if (!existingUser.verified) return setErrorResponse(`User not verified`, res, 401)
 
         let isPasswordMatch = bcrypt.compareSync(
             reqpassword,
@@ -111,6 +177,8 @@ const updateUser = async (req, res) => {
         let existingUser = await checkExistingUser(requsername.toLowerCase())
         if (existingUser == null) return setErrorResponse(`User not found`, res, 401)
 
+        if (!existingUser.verified) return setErrorResponse(`User not verified`, res, 401)
+
         let isPasswordMatch = bcrypt.compareSync(
             reqpassword,
             existingUser.password
@@ -138,6 +206,48 @@ const updateUser = async (req, res) => {
     }
 }
 
+
+const verifyUser = async (req, res) => {
+    try {
+        sdc.increment('GET /v1/verifyUserEmail');
+
+        let useremail = req.query.email
+        // pass header username(email) to check if user exists
+        let existingUser = await checkExistingUser(useremail.toLowerCase())
+        if (existingUser == null) return setErrorResponse(`User not found`, res, 401)
+
+        // if user is already verified, then skip the rest
+        if(existingUser.verified) return setErrorResponse(`Already verified`, res, 400)
+
+        let getEmailParams = {
+            TableName: 'emailTokenTbl',
+            Key: {
+                emailid: useremail
+            }
+        }
+
+        documentClient.get(getEmailParams).promise()
+            .then(function(data) {
+                if (Object.keys(data).length === 1 && Math.floor(Date.now() / 1000) < data.Item.ttl) {
+                    // change user verifies status to true
+                    logger.info('data is: ', data)
+                    existingUser.verified = true
+                    existingUser.verified_on = Date.now()
+                    // call the modifyUser service
+                    const updateUser = modifyUser(existingUser)
+                    setSuccessResponse('', res, 204)
+                } else {
+                    return setErrorResponse(`Token has expired, User cannot be verified`, res, 400)
+                }
+            })
+            .catch(function(err) {
+                return setErrorResponse(`Data for given emailid cannot be found`, res, 400)
+            });
+    } catch (e) {
+        setErrorResponse(e.message, res)
+    }
+}
+
 module.exports = {
-    signup, authenticate, updateUser
+    signup, authenticate, updateUser, verifyUser
 }
