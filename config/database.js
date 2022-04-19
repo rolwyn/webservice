@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 const fs = require('fs')
-const caRds = fs.readFileSync(__dirname + '/ca-cert.pem');
+const caRds = fs.readFileSync(__dirname + '/global-bundle.pem');
 require('dotenv').config()
 //connect to postgres server
 
@@ -17,8 +17,8 @@ const db = new Sequelize(`${process.env.DB_NAME}`, `${process.env.DB_USER_NAME}`
     dialectOptions: {
         ssl: {
             require: true,
-            rejectUnauthorized: true,
-            ca: [caRds],
+            rejectUnauthorized: false,
+            // ca: [caRds]
         }
     },
     pool: { maxConnections: 5, maxIdleTime: 30 }
