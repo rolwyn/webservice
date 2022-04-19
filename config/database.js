@@ -16,7 +16,7 @@ const db = new Sequelize(`${process.env.DB_NAME}`, `${process.env.DB_USER_NAME}`
     dialectOptions: {
         ssl: {
             require: true,
-            ca: fs.readFileSync('global-bundle.pem'),
+            ca: [fs.readFileSync('global-bundle.pem')],
             rejectUnauthorized: true
         }
     },
