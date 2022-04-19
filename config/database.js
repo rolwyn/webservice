@@ -15,7 +15,9 @@ const db = new Sequelize(`${process.env.DB_NAME}`, `${process.env.DB_USER_NAME}`
     logging: console.log,
     dialectOptions: {
         ssl: {
-            ca: fs.readFileSync('/global-bundle.pem').toString()
+            require: true,
+            ca: fs.readFileSync('global-bundle.pem'),
+            rejectUnauthorized: true
         }
     },
     pool: { maxConnections: 5, maxIdleTime: 30 }
