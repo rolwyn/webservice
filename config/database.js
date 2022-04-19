@@ -18,7 +18,7 @@ const db = new Sequelize(`${process.env.DB_NAME}`, `${process.env.DB_USER_NAME}`
         ssl: {
             require: true,
             rejectUnauthorized: true,
-            ca: [caRds]
+            ca: [caRds],
         }
     },
     pool: { maxConnections: 5, maxIdleTime: 30 }
