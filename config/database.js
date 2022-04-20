@@ -2,6 +2,7 @@ const Sequelize = require('sequelize')
 const fs = require('fs')
 const caRds = fs.readFileSync(__dirname + '/us-east-1-bundle.pem');
 require('dotenv').config()
+const tls = require('tls')
 //connect to postgres server
 
 console.log(`${process.env.DB_NAME}`)
