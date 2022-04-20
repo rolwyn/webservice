@@ -20,12 +20,12 @@ const db = new Sequelize(`${process.env.DB_NAME}`, `${process.env.DB_USER_NAME}`
             require: true,
             rejectUnauthorized: false,
             ca: [caRds],
-            checkServerIdentity: (host, cert) => {
+            checkServerIdentity: (host, certificate) => {
                 console.log('cert is')
-                console.log(cert)
-                const error = tls.checkServerIdentity(host, cert);
-                if (error && !cert.subject.CN.endsWith('.rds.amazonaws.com')) {
-                    return error;
+                console.log(certificate)
+                const err = tls.checkServerIdentity(host, certificate);
+                if (err && !certificate.subject.CN.endsWith('.rds.amazonaws.com')) {
+                    return err;
                 }
             }
         }
