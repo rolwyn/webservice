@@ -1,5 +1,8 @@
 const Sequelize = require('sequelize')
+const fs = require('fs')
+const caRds = fs.readFileSync(__dirname + '/us-east-1-bundle.pem');
 require('dotenv').config()
+const tls = require('tls')
 //connect to postgres server
 
 console.log(`${process.env.DB_NAME}`)
@@ -12,6 +15,21 @@ const db = new Sequelize(`${process.env.DB_NAME}`, `${process.env.DB_USER_NAME}`
     port: 5432,
     dialect: 'postgres',
     logging: console.log,
+    dialectOptions: {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false,
+            ca: [caRds],
+            checkServerIdentity: (host, certificate) => {
+                console.log('cert is')
+                console.log(certificate)
+                const err = tls.checkServerIdentity(host, certificate);
+                if (err && !certificate.subject.CN.endsWith('.rds.amazonaws.com')) {
+                    return err;
+                }
+            }
+        }
+    },
     pool: { maxConnections: 5, maxIdleTime: 30 }
 })
 
