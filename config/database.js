@@ -17,7 +17,7 @@ const db = new Sequelize(`${process.env.DB_NAME}`, `${process.env.DB_USER_NAME}`
     dialectOptions: {
         ssl: {
             require: true,
-            rejectUnauthorized: false,
+            rejectUnauthorized: true,
             ca: [caRds]
         }
     },
